@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUXE | Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .filter-bar {
+      max-width: 1280px;
+      margin: 2rem auto 0;
+      padding: 0 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filter-btn {
+      padding: 8px 20px;
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="nav-container">
+    <a href="index.html" class="logo">LUXE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html" class="active">Shop</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<h2 class="section-title fade-on-scroll">All Products</h2>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-category="all">All</button>
+  <button class="filter-btn" data-category="Clothing">Clothing</button>
+  <button class="filter-btn" data-category="Bags">Bags</button>
+  <button class="filter-btn" data-category="Accessories">Accessories</button>
+  <button class="filter-btn" data-category="Home">Home</button>
+</div>
+
+<div class="products-grid" id="shopGrid"></div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div>
+      <h3>LUXE Boutique</h3>
+      <p>Premium quality & timeless design</p>
+      <p>📍 Lagos, Nigeria</p>
+      <p>📞 +234 812 345 6789</p>
+    </div>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 2rem;">&copy; 2025 LUXE</div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
+<script>
+  let currentCategory = 'all';
+
+  function renderShop() {
+    const grid = document.getElementById('shopGrid');
+    const filtered = currentCategory === 'all' 
+      ? products 
+      : products.filter(p => p.category === currentCategory);
+    
+    if (filtered.length === 0) {
+      grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No products found in this category.</p>';
+      return;
+    }
+    
+    grid.innerHTML = filtered.map(product => `
+      <div class="product-card fade-on-scroll">
+        <img class="product-img" src="${product.image}" alt="${product.name}" loading="lazy">
+        <div class="product-info">
+          <div class="product-name">${product.name}</div>
+          <div class="product-price">$${product.price.toFixed(2)}</div>
+          <div class="product-desc">${product.shortDesc}</div>
+          <div class="quantity-wrapper">
+            <label>Qty:</label>
+            <input type="number" min="1" value="1" class="qty-input" id="qty-${product.id}">
+          </div>
+          <button class="whatsapp-btn" onclick="buyOnWhatsApp(products.find(p => p.id === ${product.id}), parseInt(document.getElementById('qty-${product.id}').value))">
+            <i class="fab fa-whatsapp"></i> Buy on WhatsApp
+          </button>
+          <button class="add-to-cart-btn" onclick="addToCart(${product.id}, parseInt(document.getElementById('qty-${product.id}').value))">
+            <i class="fas fa-cart-plus"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.dataset.category;
+      renderShop();
+    });
+  });
+
+  renderShop();
+</script>
+</body>
+</html>

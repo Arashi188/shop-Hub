@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUXE | Product Detail</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="nav-container">
+    <a href="index.html" class="logo">LUXE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="product-detail" id="productDetail"></div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div>
+      <h3>LUXE Boutique</h3>
+      <p>Premium quality & timeless design</p>
+      <p>📍 Lagos, Nigeria</p>
+    </div>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
+<script>
+  function loadProduct() {
+    const params = new URLSearchParams(window.location.search);
+    const productId = parseInt(params.get('id'));
+    const product = products.find(p => p.id === productId);
+    
+    if (!product) {
+      document.getElementById('productDetail').innerHTML = '<p style="text-align:center; margin:4rem;">Product not found. <a href="shop.html">Back to Shop</a></p>';
+      return;
+    }
+    
+    document.title = `LUXE | ${product.name}`;
+    
+    document.getElementById('productDetail').innerHTML = `
+      <img class="product-detail-img" src="${product.image}" alt="${product.name}">
+      <div class="product-detail-info">
+        <h1>${product.name}</h1>
+        <div class="product-detail-price">$${product.price.toFixed(2)}</div>
+        <div class="product-detail-desc">${product.fullDesc || product.shortDesc}</div>
+        <div class="quantity-wrapper">
+          <label>Quantity:</label>
+          <input type="number" min="1" value="1" id="detailQty" class="qty-input">
+        </div>
+        <button class="whatsapp-btn" onclick="buyOnWhatsApp(products.find(p => p.id === ${product.id}), parseInt(document.getElementById('detailQty').value))">
+          <i class="fab fa-whatsapp"></i> Buy on WhatsApp
+        </button>
+        <button class="add-to-cart-btn" style="margin-top: 12px;" onclick="addToCart(${product.id}, parseInt(document.getElementById('detailQty').value)); showToast('Added to cart!');">
+          <i class="fas fa-cart-plus"></i> Add to Cart
+        </button>
+      </div>
+    `;
+  }
+  
+  loadProduct();
+</script>
+</body>
+</html>

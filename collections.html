@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUXE | Collections</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .collection-hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 40vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    .collection-card {
+      position: relative;
+      height: 500px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .collection-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .collection-card:hover img {
+      transform: scale(1.05);
+    }
+    .collection-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      color: white;
+      padding: 2rem;
+      transform: translateY(0);
+      transition: transform 0.3s;
+    }
+    .collection-card:hover .collection-overlay {
+      transform: translateY(-10px);
+    }
+    .season-tag {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--primary);
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .lookbook {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 3rem 0;
+    }
+    .lookbook-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+    }
+    .lookbook-item img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+    @media (max-width: 768px) {
+      .collection-grid { grid-template-columns: 1fr; }
+      .lookbook { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="nav-container">
+    <a href="index.html" class="logo">LUXE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="collections.html" class="active">Collections</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="collection-hero">
+  <div class="hero-content">
+    <h1>Our Collections</h1>
+    <p>Curated looks for every season and style</p>
+  </div>
+</section>
+
+<div class="container" style="max-width: 1280px; margin: 0 auto; padding: 2rem;">
+  <div class="collection-grid">
+    <div class="collection-card fade-on-scroll">
+      <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&auto=format" alt="Summer Collection">
+      <div class="season-tag">SS 2025</div>
+      <div class="collection-overlay">
+        <h3>Summer Breeze</h3>
+        <p>Lightweight fabrics and vibrant colors</p>
+        <a href="shop.html" class="cta-button" style="margin-top: 1rem; display: inline-block;">Explore →</a>
+      </div>
+    </div>
+    <div class="collection-card fade-on-scroll">
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&auto=format" alt="Fall Collection">
+      <div class="season-tag">FW 2024</div>
+      <div class="collection-overlay">
+        <h3>Autumn Elegance</h3>
+        <p>Warm tones and cozy textures</p>
+        <a href="shop.html" class="cta-button" style="margin-top: 1rem; display: inline-block;">Explore →</a>
+      </div>
+    </div>
+    <div class="collection-card fade-on-scroll">
+      <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format" alt="Winter Collection">
+      <div class="season-tag">Holiday 2024</div>
+      <div class="collection-overlay">
+        <h3>Winter Luxe</h3>
+        <p>Premium cashmere and wool pieces</p>
+        <a href="shop.html" class="cta-button" style="margin-top: 1rem; display: inline-block;">Explore →</a>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="text-align: center; margin: 3rem 0;">Lookbook 2025</h2>
+  <div class="lookbook">
+    <div class="lookbook-item fade-on-scroll">
+      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&auto=format" alt="Look 1">
+    </div>
+    <div class="lookbook-item fade-on-scroll">
+      <img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&auto=format" alt="Look 2">
+    </div>
+    <div class="lookbook-item fade-on-scroll">
+      <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&auto=format" alt="Look 3">
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div><h3>LUXE Boutique</h3><p>Premium quality & timeless design</p></div>
+    <div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
