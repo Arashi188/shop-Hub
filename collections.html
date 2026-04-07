@@ -21,11 +21,13 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 2rem;
-      margin: 3rem 0;
+      margin: 3rem auto;
+      max-width: 1280px;
+      padding: 0 2rem;
     }
     .collection-card {
       position: relative;
-      height: 500px;
+      height: 450px;
       border-radius: var(--radius-lg);
       overflow: hidden;
       cursor: pointer;
@@ -47,11 +49,6 @@
       background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
       color: white;
       padding: 2rem;
-      transform: translateY(0);
-      transition: transform 0.3s;
-    }
-    .collection-card:hover .collection-overlay {
-      transform: translateY(-10px);
     }
     .season-tag {
       position: absolute;
@@ -63,25 +60,9 @@
       font-size: 0.8rem;
       font-weight: 600;
     }
-    .lookbook {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin: 3rem 0;
-    }
-    .lookbook-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: var(--radius-md);
-    }
-    .lookbook-item img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-    }
     @media (max-width: 768px) {
-      .collection-grid { grid-template-columns: 1fr; }
-      .lookbook { grid-template-columns: 1fr; }
+      .collection-grid { grid-template-columns: 1fr; padding: 0 1rem; }
+      .collection-card { height: 350px; }
     }
   </style>
 </head>
@@ -89,7 +70,7 @@
 
 <header class="header">
   <div class="nav-container">
-    <a href="index.html" class="logo">LUXE</a>
+    <a href="index.html" class="logo">🛍️ LUXE</a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
@@ -97,71 +78,108 @@
       <li><a href="about.html">About</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
       <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
     </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
 </header>
 
+<div class="mobile-nav" id="mobileNav">
+  <ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="collections.html">Collections</a></li><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="wishlist.html">Wishlist ❤️</a></li><li><a href="cart.html">Cart 🛒</a></li><li><a href="account.html">My Account 👤</a></li></ul>
+</div>
+<div class="overlay" id="overlay"></div>
+
 <section class="collection-hero">
-  <div class="hero-content">
-    <h1>Our Collections</h1>
-    <p>Curated looks for every season and style</p>
-  </div>
+  <div><h1>Our Collections</h1><p>Curated looks for every season and style</p></div>
 </section>
 
-<div class="container" style="max-width: 1280px; margin: 0 auto; padding: 2rem;">
-  <div class="collection-grid">
-    <div class="collection-card fade-on-scroll">
-      <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&auto=format" alt="Summer Collection">
-      <div class="season-tag">SS 2025</div>
-      <div class="collection-overlay">
-        <h3>Summer Breeze</h3>
-        <p>Lightweight fabrics and vibrant colors</p>
-        <a href="shop.html" class="cta-button" style="margin-top: 1rem; display: inline-block;">Explore →</a>
-      </div>
-    </div>
-    <div class="collection-card fade-on-scroll">
-      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&auto=format" alt="Fall Collection">
-      <div class="season-tag">FW 2024</div>
-      <div class="collection-overlay">
-        <h3>Autumn Elegance</h3>
-        <p>Warm tones and cozy textures</p>
-        <a href="shop.html" class="cta-button" style="margin-top: 1rem; display: inline-block;">Explore →</a>
-      </div>
-    </div>
-    <div class="collection-card fade-on-scroll">
-      <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format" alt="Winter Collection">
-      <div class="season-tag">Holiday 2024</div>
-      <div class="collection-overlay">
-        <h3>Winter Luxe</h3>
-        <p>Premium cashmere and wool pieces</p>
-        <a href="shop.html" class="cta-button" style="margin-top: 1rem; display: inline-block;">Explore →</a>
-      </div>
-    </div>
+<div class="collection-grid">
+  <div class="collection-card" onclick="location.href='shop.html?cat=Electronics'">
+    <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&auto=format" alt="Electronics">
+    <div class="season-tag">New Arrivals</div>
+    <div class="collection-overlay"><h3>Electronics</h3><p>Latest gadgets & accessories</p></div>
   </div>
-
-  <h2 style="text-align: center; margin: 3rem 0;">Lookbook 2025</h2>
-  <div class="lookbook">
-    <div class="lookbook-item fade-on-scroll">
-      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&auto=format" alt="Look 1">
-    </div>
-    <div class="lookbook-item fade-on-scroll">
-      <img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&auto=format" alt="Look 2">
-    </div>
-    <div class="lookbook-item fade-on-scroll">
-      <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&auto=format" alt="Look 3">
-    </div>
+  <div class="collection-card" onclick="location.href='shop.html?cat=Furniture'">
+    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format" alt="Furniture">
+    <div class="season-tag">Modern Design</div>
+    <div class="collection-overlay"><h3>Furniture</h3><p>Transform your space</p></div>
+  </div>
+  <div class="collection-card" onclick="location.href='shop.html?cat=Beauty'">
+    <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format" alt="Beauty">
+    <div class="season-tag">Self Care</div>
+    <div class="collection-overlay"><h3>Beauty</h3><p>Premium skincare & cosmetics</p></div>
   </div>
 </div>
 
 <footer class="footer">
   <div class="footer-content">
-    <div><h3>LUXE Boutique</h3><p>Premium quality & timeless design</p></div>
-    <div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div>
+    <div>
+      <h3>🛍️ LUXE Marketplace</h3>
+      <p>Your one-stop shop for everything</p>
+      <p>📍 Lagos, Nigeria</p>
+      <p>📞 +234 812 345 6789</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="shop.html">Shop All</a></p>
+      <p><a href="about.html">About Us</a></p>
+      <p><a href="contact.html">Contact</a></p>
+      <p><a href="faq.html">FAQ</a></p>
+    </div>
+    <div>
+      <h4>Categories</h4>
+      <p><a href="shop.html?cat=Electronics">Electronics</a></p>
+      <p><a href="shop.html?cat=Furniture">Furniture</a></p>
+      <p><a href="shop.html?cat=Beauty">Beauty</a></p>
+      <p><a href="shop.html?cat=Groceries">Groceries</a></p>
+    </div>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
   </div>
+  <div style="text-align: center; margin-top: 2rem;">&copy; 2026 LUXE Marketplace — All rights reserved.</div>
 </footer>
 
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
+<script>
+  // Hamburger menu functionality
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+const overlay = document.getElementById('overlay');
+
+function toggleMenu() {
+  hamburger.classList.toggle('active');
+  mobileNav.classList.toggle('active');
+  overlay.classList.toggle('active');
+  
+  // Prevent body scroll when menu is open
+  if (mobileNav.classList.contains('active')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+}
+
+// Close menu when clicking a link
+function closeMenu() {
+  hamburger.classList.remove('active');
+  mobileNav.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+hamburger?.addEventListener('click', toggleMenu);
+overlay?.addEventListener('click', closeMenu);
+
+// Close menu when a link is clicked
+document.querySelectorAll('.mobile-nav a').forEach(link => {
+  link.addEventListener('click', closeMenu);
+});
+</script>
 </body>
 </html>

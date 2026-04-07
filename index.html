@@ -3,113 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>LUXE | Premium Marketplace - Shop Everything</title>
+  <title>LUXE | Premium Marketplace</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
-  <style>
-    /* Additional styles for universal product display */
-    .category-pills {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      max-width: 1280px;
-    }
-    .category-pill {
-      padding: 10px 24px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-weight: 500;
-    }
-    .category-pill:hover, .category-pill.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      max-width: 1280px;
-      margin: 4rem auto;
-      padding: 2rem;
-    }
-    .feature-card {
-      text-align: center;
-      padding: 2rem;
-      background: var(--surface);
-      border-radius: var(--radius-md);
-      transition: all 0.3s;
-    }
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-    }
-    .feature-icon {
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
-    .newsletter {
-      background: linear-gradient(135deg, var(--secondary), #1a1a2e);
-      color: white;
-      padding: 4rem 2rem;
-      text-align: center;
-      margin: 4rem 0;
-    }
-    .newsletter-form {
-      display: flex;
-      max-width: 500px;
-      margin: 2rem auto 0;
-      gap: 1rem;
-    }
-    .newsletter-form input {
-      flex: 1;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 40px;
-      font-size: 1rem;
-    }
-    .newsletter-form button {
-      padding: 14px 28px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 40px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    @media (max-width: 768px) {
-      .newsletter-form { flex-direction: column; }
-    }
-  </style>
 </head>
 <body>
 
 <header class="header">
   <div class="nav-container">
     <a href="index.html" class="logo">🛍️ LUXE</a>
-    <ul class="nav-links" id="mainNav">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="shop.html">Shop All</a></li>
+    
+    <!-- Desktop Navigation -->
+    <ul class="nav-links desktop-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
       <li><a href="collections.html">Collections</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li id="authNavLink"><a href="login.html"><i class="fas fa-user"></i> Sign In</a></li>
       <li><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
       <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
     </ul>
+    
+    <!-- Hamburger Button (visible only on mobile) -->
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
+  
+  <!-- Mobile Navigation (hidden by default, shows when hamburger clicked) -->
+  <div class="mobile-nav" id="mobileNav">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="wishlist.html">Wishlist ❤️</a></li>
+      <li><a href="cart.html">Cart 🛒 <span class="cart-count-mobile">0</span></a></li>
+      <li><a href="account.html">My Account 👤</a></li>
+      <li><a href="login.html">Sign In 🔑</a></li>
+    </ul>
+  </div>
+  <div class="overlay" id="overlay"></div>
 </header>
 
-<!-- Hero Slider - Universal -->
+<!-- Hero Slider -->
 <section class="hero" id="hero-slider">
   <div class="slides-container" id="slidesContainer"></div>
   <button class="slider-arrow arrow-left" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
@@ -124,12 +67,12 @@
   <button class="category-pill" data-category="Furniture">🛋️ Furniture</button>
   <button class="category-pill" data-category="Beauty">💄 Beauty</button>
   <button class="category-pill" data-category="Groceries">🥑 Groceries</button>
-  <button class="category-pill" data-category="Toys">🎮 Toys & Games</button>
+  <button class="category-pill" data-category="Toys">🎮 Toys</button>
   <button class="category-pill" data-category="Sports">⚽ Sports</button>
   <button class="category-pill" data-category="Books">📚 Books</button>
 </div>
 
-<!-- Featured Products Grid -->
+<!-- Featured Products -->
 <h2 class="section-title fade-on-scroll">⭐ Featured Products</h2>
 <div class="products-grid" id="featuredGrid"></div>
 
@@ -157,19 +100,15 @@
   </div>
 </div>
 
-<!-- Newsletter Section -->
+<!-- Newsletter -->
 <div class="newsletter">
   <h2>Join Our Newsletter</h2>
   <p>Get exclusive offers, new product alerts, and 10% off your first order!</p>
-  <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing! Check your email for 10% off.');">
+  <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
     <input type="email" placeholder="Enter your email" required>
     <button type="submit">Subscribe →</button>
   </form>
 </div>
-
-<!-- Top Categories Section -->
-<h2 class="section-title fade-on-scroll">📂 Shop by Category</h2>
-<div class="products-grid" id="categoryGrid"></div>
 
 <footer class="footer">
   <div class="footer-content">
@@ -178,7 +117,6 @@
       <p>Your one-stop shop for everything</p>
       <p>📍 Lagos, Nigeria</p>
       <p>📞 +234 812 345 6789</p>
-      <p>✉️ hello@luxe.com</p>
     </div>
     <div>
       <h4>Quick Links</h4>
@@ -186,7 +124,6 @@
       <p><a href="about.html">About Us</a></p>
       <p><a href="contact.html">Contact</a></p>
       <p><a href="faq.html">FAQ</a></p>
-      <p><a href="size-guide.html">Size Guide</a></p>
     </div>
     <div>
       <h4>Categories</h4>
@@ -194,28 +131,21 @@
       <p><a href="shop.html?cat=Furniture">Furniture</a></p>
       <p><a href="shop.html?cat=Beauty">Beauty</a></p>
       <p><a href="shop.html?cat=Groceries">Groceries</a></p>
-      <p><a href="shop.html?cat=Toys">Toys</a></p>
     </div>
-    <div>
-      <h4>Follow Us</h4>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-        <a href="#"><i class="fab fa-tiktok"></i></a>
-      </div>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
     </div>
   </div>
-  <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
-    <p>&copy; 2025 LUXE Marketplace — All rights reserved.</p>
-  </div>
+  <div style="text-align: center; margin-top: 2rem;">&copy; 2026 LUXE Marketplace</div>
 </footer>
 
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
 <script>
-  // Hero Slider
+  // Hero Slider Variables
   let currentSlide = 0;
   let slideInterval;
   let slidesArray = [];
@@ -229,13 +159,7 @@
       const slideDiv = document.createElement('div');
       slideDiv.className = `slide ${idx === 0 ? 'active' : ''}`;
       slideDiv.style.backgroundImage = `linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.3)), url('${slide.bg}')`;
-      slideDiv.innerHTML = `
-        <div class="slide-content">
-          <h2>${slide.headline}</h2>
-          <p>${slide.subtext}</p>
-          <a href="shop.html" class="cta-button">${slide.cta}</a>
-        </div>
-      `;
+      slideDiv.innerHTML = `<div class="slide-content"><h2>${slide.headline}</h2><p>${slide.subtext}</p><a href="shop.html" class="cta-button">${slide.cta}</a></div>`;
       container.appendChild(slideDiv);
       
       const dot = document.createElement('div');
@@ -248,126 +172,66 @@
   }
 
   function updateActiveSlide() {
-    slidesArray.forEach((slide, i) => {
-      slide.classList.toggle('active', i === currentSlide);
-    });
-    document.querySelectorAll('.dot').forEach((dot, i) => {
-      dot.classList.toggle('active', i === currentSlide);
-    });
+    slidesArray.forEach((slide, i) => slide.classList.toggle('active', i === currentSlide));
+    document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
   }
 
-  function nextSlide() {
-    currentSlide = (currentSlide + 1) % slidesArray.length;
-    updateActiveSlide();
-    resetInterval();
-  }
+  function nextSlide() { currentSlide = (currentSlide + 1) % slidesArray.length; updateActiveSlide(); resetInterval(); }
+  function prevSlide() { currentSlide = (currentSlide - 1 + slidesArray.length) % slidesArray.length; updateActiveSlide(); resetInterval(); }
+  function goToSlide(index) { currentSlide = index; updateActiveSlide(); resetInterval(); }
+  function startAutoPlay() { if (slideInterval) clearInterval(slideInterval); slideInterval = setInterval(nextSlide, 5000); }
+  function resetInterval() { clearInterval(slideInterval); startAutoPlay(); }
 
-  function prevSlide() {
-    currentSlide = (currentSlide - 1 + slidesArray.length) % slidesArray.length;
-    updateActiveSlide();
-    resetInterval();
-  }
-
-  function goToSlide(index) {
-    currentSlide = index;
-    updateActiveSlide();
-    resetInterval();
-  }
-
-  function startAutoPlay() {
-    if (slideInterval) clearInterval(slideInterval);
-    slideInterval = setInterval(nextSlide, 5000);
-  }
-
-  function resetInterval() {
-    clearInterval(slideInterval);
-    startAutoPlay();
-  }
-
-  // Render Featured Products (Mixed categories)
   function renderFeatured() {
     const grid = document.getElementById('featuredGrid');
     const featured = products.slice(0, 8);
-    grid.innerHTML = featured.map(product => `
-      <div class="product-card fade-on-scroll" onclick="location.href='product-detail.html?id=${product.id}'">
-        <img class="product-img" src="${product.image}" alt="${product.name}" loading="lazy">
-        <div class="product-info">
-          <div class="product-name">${product.name}</div>
-          <div class="product-price">$${product.price.toFixed(2)}</div>
-          <div class="product-desc">${product.shortDesc}</div>
-          <div class="quantity-wrapper">
-            <label>Qty:</label>
-            <input type="number" min="1" value="1" class="qty-input" id="featured-qty-${product.id}" onclick="event.stopPropagation()">
-          </div>
-          <button class="whatsapp-btn" onclick="event.stopPropagation(); buyOnWhatsApp(products.find(p => p.id === ${product.id}), parseInt(document.getElementById('featured-qty-${product.id}').value))">
-            <i class="fab fa-whatsapp"></i> Buy on WhatsApp
-          </button>
-          <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.id}, parseInt(document.getElementById('featured-qty-${product.id}').value))">
-            <i class="fas fa-cart-plus"></i> Add to Cart
-          </button>
-        </div>
-      </div>
-    `).join('');
+    grid.innerHTML = featured.map(p => `<div class="product-card fade-on-scroll" onclick="location.href='product-detail.html?id=${p.id}'"><img class="product-img" src="${p.image}" loading="lazy"><div class="product-info"><div class="product-name">${p.name}</div><div class="product-price">$${p.price.toFixed(2)}</div><div class="product-desc">${p.shortDesc}</div><div class="quantity-wrapper"><label>Qty:</label><input type="number" min="1" value="1" class="qty-input" id="featured-qty-${p.id}" onclick="event.stopPropagation()"></div><button class="whatsapp-btn" onclick="event.stopPropagation(); buyOnWhatsApp(products.find(pr => pr.id === ${p.id}), parseInt(document.getElementById('featured-qty-${p.id}').value))"><i class="fab fa-whatsapp"></i> Buy on WhatsApp</button><button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${p.id}, parseInt(document.getElementById('featured-qty-${p.id}').value))"><i class="fas fa-cart-plus"></i> Add to Cart</button></div></div>`).join('');
   }
 
-  // Render Category Grid (One from each category)
-  function renderCategoryGrid() {
-    const grid = document.getElementById('categoryGrid');
-    const categories = ['Electronics', 'Furniture', 'Beauty', 'Groceries', 'Toys', 'Sports'];
-    const categoryProducts = categories.map(cat => products.find(p => p.category === cat)).filter(p => p);
-    
-    grid.innerHTML = categoryProducts.map(product => `
-      <div class="product-card fade-on-scroll" onclick="location.href='shop.html?cat=${product.category}'">
-        <img class="product-img" src="${product.image}" alt="${product.category}" loading="lazy">
-        <div class="product-info" style="text-align: center;">
-          <div class="product-name" style="font-size: 1.5rem;">${product.category}</div>
-          <p style="color: var(--text-light);">Shop the collection →</p>
-        </div>
-      </div>
-    `).join('');
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  const overlay = document.getElementById('overlay');
+  
+  function toggleMenu() {
+    hamburger.classList.toggle('active');
+    mobileNav.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
   }
-
-  // Touch support for slider
-  let touchStartX = 0;
-  const hero = document.querySelector('.hero');
-  if (hero) {
-    hero.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-    hero.addEventListener('touchend', e => {
-      const endX = e.changedTouches[0].screenX;
-      if (endX < touchStartX - 50) nextSlide();
-      if (endX > touchStartX + 50) prevSlide();
-    });
+  
+  function closeMenu() {
+    hamburger.classList.remove('active');
+    mobileNav.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
   }
+  
+  hamburger?.addEventListener('click', toggleMenu);
+  overlay?.addEventListener('click', closeMenu);
+  document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', closeMenu));
 
-  // Category filter pills on homepage
+  // Category pills
   document.querySelectorAll('.category-pill').forEach(btn => {
     btn.addEventListener('click', () => {
       const category = btn.dataset.category;
-      if (category === 'all') {
-        window.location.href = 'shop.html';
-      } else {
-        window.location.href = `shop.html?cat=${category}`;
-      }
+      window.location.href = category === 'all' ? 'shop.html' : `shop.html?cat=${category}`;
     });
   });
 
+  // Touch support
+  let touchStartX = 0;
+  const hero = document.querySelector('.hero');
+  hero?.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+  hero?.addEventListener('touchend', e => { const endX = e.changedTouches[0].screenX; if (endX < touchStartX - 50) nextSlide(); if (endX > touchStartX + 50) prevSlide(); });
+  
   document.getElementById('prevSlide')?.addEventListener('click', prevSlide);
   document.getElementById('nextSlide')?.addEventListener('click', nextSlide);
 
-  // Initialize everything
   buildSlides();
   renderFeatured();
-  renderCategoryGrid();
   startAutoPlay();
   updateCartCount();
-
-  // Update auth nav based on login status
-  const currentUser = localStorage.getItem('luxe_current_user');
-  const authNav = document.getElementById('authNavLink');
-  if (currentUser && authNav) {
-    const user = JSON.parse(currentUser);
-    authNav.innerHTML = `<a href="account.html"><i class="fas fa-user-circle"></i> ${user.name.split(' ')[0]}</a>`;
-  }
 </script>
 </body>
 </html>

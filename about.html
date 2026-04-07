@@ -8,83 +8,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    .hero-about {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      height: 50vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-      margin: 4rem 0;
-      text-align: center;
-    }
-    .stat-card {
-      background: var(--surface);
-      padding: 2rem;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s;
-    }
-    .stat-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-    }
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-    .timeline {
-      position: relative;
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 2rem;
-    }
-    .timeline-item {
-      display: flex;
-      gap: 2rem;
-      margin-bottom: 3rem;
-      position: relative;
-    }
-    .timeline-year {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--primary);
-      min-width: 100px;
-    }
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin: 3rem 0;
-    }
-    .team-card {
-      text-align: center;
-    }
-    .team-img {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 1rem;
-    }
-    @media (max-width: 768px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .timeline-item { flex-direction: column; gap: 0.5rem; }
-    }
+    .about-hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); height: 50vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1280px; margin: 4rem auto; padding: 0 2rem; text-align: center; }
+    .stat-card { background: var(--surface); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); transition: all 0.3s; }
+    .stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+    .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--primary); }
+    @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
   </style>
 </head>
 <body>
 
 <header class="header">
   <div class="nav-container">
-    <a href="index.html" class="logo">LUXE</a>
+    <a href="index.html" class="logo">🛍️ LUXE</a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
@@ -92,98 +28,95 @@
       <li><a href="about.html" class="active">About</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
       <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
     </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
 </header>
 
-<section class="hero-about">
-  <div class="hero-content fade-on-scroll">
-    <h1>Crafting Timeless Elegance</h1>
-    <p style="font-size: 1.2rem; max-width: 600px; margin: 1rem auto;">Since 2015, we've been redefining luxury with sustainable, handcrafted pieces that tell a story.</p>
-  </div>
-</section>
+<div class="mobile-nav" id="mobileNav">
+  <ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="collections.html">Collections</a></li><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="wishlist.html">Wishlist ❤️</a></li><li><a href="cart.html">Cart 🛒</a></li><li><a href="account.html">My Account 👤</a></li></ul>
+</div>
+<div class="overlay" id="overlay"></div>
 
-<div class="container" style="max-width: 1280px; margin: 0 auto; padding: 2rem;">
-  <div class="stats-grid">
-    <div class="stat-card fade-on-scroll">
-      <div class="stat-number">10K+</div>
-      <div>Happy Customers</div>
-    </div>
-    <div class="stat-card fade-on-scroll">
-      <div class="stat-number">50+</div>
-      <div>Countries Shipped</div>
-    </div>
-    <div class="stat-card fade-on-scroll">
-      <div class="stat-number">100%</div>
-      <div>Sustainable Materials</div>
-    </div>
-    <div class="stat-card fade-on-scroll">
-      <div class="stat-number">24/7</div>
-      <div>Customer Support</div>
-    </div>
-  </div>
+<section class="about-hero"><div><h1>About LUXE</h1><p>Your trusted marketplace for quality products</p></div></section>
 
-  <div style="text-align: center; margin: 4rem 0;">
-    <h2>Our Journey</h2>
-    <div class="timeline">
-      <div class="timeline-item fade-on-scroll">
-        <div class="timeline-year">2015</div>
-        <div><strong>Founded in Lagos</strong><br>Started as a small boutique with a vision for authentic African luxury.</div>
-      </div>
-      <div class="timeline-item fade-on-scroll">
-        <div class="timeline-year">2018</div>
-        <div><strong>Global Expansion</strong><br>Opened international shipping to 30+ countries worldwide.</div>
-      </div>
-      <div class="timeline-item fade-on-scroll">
-        <div class="timeline-year">2021</div>
-        <div><strong>Sustainability Pledge</strong><br>Committed to 100% eco-friendly packaging and ethical sourcing.</div>
-      </div>
-      <div class="timeline-item fade-on-scroll">
-        <div class="timeline-year">2024</div>
-        <div><strong>Digital Innovation</strong><br>Launched AI-powered size recommendation and virtual try-on.</div>
-      </div>
-    </div>
-  </div>
-
-  <div style="margin: 4rem 0;">
-    <h2 style="text-align: center;">Meet Our Founders</h2>
-    <div class="team-grid">
-      <div class="team-card fade-on-scroll">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format" alt="Founder" class="team-img">
-        <h3>Michael Adebayo</h3>
-        <p style="color: var(--text-light);">CEO & Creative Director</p>
-      </div>
-      <div class="team-card fade-on-scroll">
-        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format" alt="Founder" class="team-img">
-        <h3>Sarah Johnson</h3>
-        <p style="color: var(--text-light);">Head of Design</p>
-      </div>
-      <div class="team-card fade-on-scroll">
-        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format" alt="Founder" class="team-img">
-        <h3>David Okafor</h3>
-        <p style="color: var(--text-light);">Operations Director</p>
-      </div>
-    </div>
-  </div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-number">50K+</div><div>Happy Customers</div></div>
+  <div class="stat-card"><div class="stat-number">100+</div><div>Brands</div></div>
+  <div class="stat-card"><div class="stat-number">50+</div><div>Countries</div></div>
+  <div class="stat-card"><div class="stat-number">24/7</div><div>Support</div></div>
 </div>
 
 <footer class="footer">
   <div class="footer-content">
     <div>
-      <h3>LUXE Boutique</h3>
-      <p>Premium quality & timeless design</p>
+      <h3>🛍️ LUXE Marketplace</h3>
+      <p>Your one-stop shop for everything</p>
       <p>📍 Lagos, Nigeria</p>
+      <p>📞 +234 812 345 6789</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="shop.html">Shop All</a></p>
+      <p><a href="about.html">About Us</a></p>
+      <p><a href="contact.html">Contact</a></p>
+      <p><a href="faq.html">FAQ</a></p>
+    </div>
+    <div>
+      <h4>Categories</h4>
+      <p><a href="shop.html?cat=Electronics">Electronics</a></p>
+      <p><a href="shop.html?cat=Furniture">Furniture</a></p>
+      <p><a href="shop.html?cat=Beauty">Beauty</a></p>
+      <p><a href="shop.html?cat=Groceries">Groceries</a></p>
     </div>
     <div class="social-icons">
       <a href="#"><i class="fab fa-instagram"></i></a>
       <a href="#"><i class="fab fa-twitter"></i></a>
       <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
     </div>
   </div>
+  <div style="text-align: center; margin-top: 2rem;">&copy; 2026 LUXE Marketplace — All rights reserved.</div>
 </footer>
 
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
+<script>
+  // Hamburger menu functionality
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+const overlay = document.getElementById('overlay');
+
+function toggleMenu() {
+  hamburger.classList.toggle('active');
+  mobileNav.classList.toggle('active');
+  overlay.classList.toggle('active');
+  
+  // Prevent body scroll when menu is open
+  if (mobileNav.classList.contains('active')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+}
+
+// Close menu when clicking a link
+function closeMenu() {
+  hamburger.classList.remove('active');
+  mobileNav.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+hamburger?.addEventListener('click', toggleMenu);
+overlay?.addEventListener('click', closeMenu);
+
+// Close menu when a link is clicked
+document.querySelectorAll('.mobile-nav a').forEach(link => {
+  link.addEventListener('click', closeMenu);
+});
+</script>
 </body>
 </html>

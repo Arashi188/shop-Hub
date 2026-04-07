@@ -12,61 +12,99 @@
 
 <header class="header">
   <div class="nav-container">
-    <a href="index.html" class="logo">LUXE</a>
+    <a href="index.html" class="logo">🛍️ LUXE</a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
       <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
       <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
     </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
 </header>
 
+<div class="mobile-nav" id="mobileNav">
+  <ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="collections.html">Collections</a></li><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="wishlist.html">Wishlist ❤️</a></li><li><a href="cart.html">Cart 🛒</a></li><li><a href="account.html">My Account 👤</a></li></ul>
+</div>
+<div class="overlay" id="overlay"></div>
+
 <div class="contact-container">
-  <div class="contact-info">
-    <h2>Get in Touch</h2>
-    <p style="margin: 1rem 0 2rem 0;">Have questions? We'd love to hear from you.</p>
-    <div style="margin: 2rem 0;">
-      <p style="margin: 1rem 0;"><i class="fas fa-map-marker-alt" style="width: 30px; color: var(--primary);"></i> 123 Luxury Avenue, Victoria Island, Lagos, Nigeria</p>
-      <p style="margin: 1rem 0;"><i class="fas fa-phone" style="width: 30px; color: var(--primary);"></i> +234 812 345 6789</p>
-      <p style="margin: 1rem 0;"><i class="fas fa-envelope" style="width: 30px; color: var(--primary);"></i> hello@luxe.com</p>
-      <p style="margin: 1rem 0;"><i class="fas fa-clock" style="width: 30px; color: var(--primary);"></i> Mon - Sat: 9am - 7pm</p>
-    </div>
-    <div class="social-icons" style="justify-content: flex-start; margin-top: 2rem;">
-      <a href="#" aria-label="Instagram" style="background: #E4405F; width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;"><i class="fab fa-instagram"></i></a>
-      <a href="#" aria-label="Twitter" style="background: #1DA1F2; width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;"><i class="fab fa-twitter"></i></a>
-      <a href="#" aria-label="Facebook" style="background: #1877F2; width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;"><i class="fab fa-facebook-f"></i></a>
-      <a href="#" aria-label="WhatsApp" style="background: #25D366; width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;"><i class="fab fa-whatsapp"></i></a>
-    </div>
-  </div>
-  <div>
-    <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent! We\'ll get back to you within 24 hours.'); this.reset();">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Email Address" required>
-      <input type="tel" placeholder="Phone Number (optional)">
-      <textarea rows="5" placeholder="How can we help you?" required></textarea>
-      <button type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
-    </form>
-  </div>
+  <div><h2>Get in Touch</h2><p>Have questions? We'd love to hear from you.</p><div style="margin: 2rem 0;"><p><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</p><p><i class="fas fa-phone"></i> +234 812 345 6789</p><p><i class="fas fa-envelope"></i> hello@luxe.com</p></div></div>
+  <div><form class="contact-form"><input type="text" placeholder="Your Name" required><input type="email" placeholder="Email Address" required><textarea rows="5" placeholder="Your Message"></textarea><button type="submit">Send Message</button></form></div>
 </div>
 
 <footer class="footer">
   <div class="footer-content">
     <div>
-      <h3>LUXE Boutique</h3>
-      <p>Premium quality & timeless design</p>
-      <p>Lagos, Nigeria</p>
+      <h3>🛍️ LUXE Marketplace</h3>
+      <p>Your one-stop shop for everything</p>
+      <p>📍 Lagos, Nigeria</p>
+      <p>📞 +234 812 345 6789</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="shop.html">Shop All</a></p>
+      <p><a href="about.html">About Us</a></p>
+      <p><a href="contact.html">Contact</a></p>
+      <p><a href="faq.html">FAQ</a></p>
+    </div>
+    <div>
+      <h4>Categories</h4>
+      <p><a href="shop.html?cat=Electronics">Electronics</a></p>
+      <p><a href="shop.html?cat=Furniture">Furniture</a></p>
+      <p><a href="shop.html?cat=Beauty">Beauty</a></p>
+      <p><a href="shop.html?cat=Groceries">Groceries</a></p>
     </div>
     <div class="social-icons">
-      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
     </div>
   </div>
-  <div style="text-align: center; margin-top: 2rem;">&copy; 2025 LUXE - All rights reserved.</div>
+  <div style="text-align: center; margin-top: 2rem;">&copy; 2026 LUXE Marketplace — All rights reserved.</div>
 </footer>
 
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
+<script>
+ // Hamburger menu functionality
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+const overlay = document.getElementById('overlay');
+
+function toggleMenu() {
+  hamburger.classList.toggle('active');
+  mobileNav.classList.toggle('active');
+  overlay.classList.toggle('active');
+  
+  // Prevent body scroll when menu is open
+  if (mobileNav.classList.contains('active')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+}
+
+// Close menu when clicking a link
+function closeMenu() {
+  hamburger.classList.remove('active');
+  mobileNav.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+hamburger?.addEventListener('click', toggleMenu);
+overlay?.addEventListener('click', closeMenu);
+
+// Close menu when a link is clicked
+document.querySelectorAll('.mobile-nav a').forEach(link => {
+  link.addEventListener('click', closeMenu);
+});
+</script>
 </body>
 </html>

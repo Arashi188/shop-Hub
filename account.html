@@ -7,304 +7,107 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
-  <style>
-    .account-container {
-      max-width: 1280px;
-      margin: 3rem auto;
-      padding: 2rem;
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 2rem;
-    }
-    .account-sidebar {
-      background: var(--surface);
-      border-radius: var(--radius-md);
-      padding: 1.5rem;
-      height: fit-content;
-      box-shadow: var(--shadow-sm);
-    }
-    .account-avatar {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .account-avatar img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--primary);
-    }
-    .account-menu {
-      list-style: none;
-    }
-    .account-menu li {
-      padding: 0.75rem;
-      cursor: pointer;
-      border-radius: var(--radius-sm);
-      transition: all 0.2s;
-      margin: 0.25rem 0;
-    }
-    .account-menu li:hover, .account-menu li.active {
-      background: var(--primary-light);
-      color: var(--primary);
-    }
-    .logout-btn {
-      margin-top: 2rem;
-      padding: 0.75rem;
-      background: #fee;
-      color: #e74c3c;
-      text-align: center;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-    }
-    .account-content {
-      background: var(--surface);
-      border-radius: var(--radius-md);
-      padding: 2rem;
-      box-shadow: var(--shadow-sm);
-    }
-    .order-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 1rem;
-      margin-bottom: 1rem;
-      transition: all 0.2s;
-    }
-    .order-card:hover {
-      box-shadow: var(--shadow-sm);
-    }
-    .order-status {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    .status-delivered { background: #e8f5e9; color: #2e7d32; }
-    .status-shipped { background: #fff3e0; color: #f39c12; }
-    .status-processing { background: #e3f2fd; color: #1976d2; }
-    @media (max-width: 768px) {
-      .account-container { grid-template-columns: 1fr; }
-    }
-  </style>
 </head>
 <body>
 
 <header class="header">
   <div class="nav-container">
-    <a href="index.html" class="logo">LUXE</a>
+    <a href="index.html" class="logo">🛍️ LUXE</a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
       <li><a href="collections.html">Collections</a></li>
       <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="account.html" class="active"><i class="fas fa-user"></i></a></li>
-      <li><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
       <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
     </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
 </header>
 
-<div id="protectedContent" style="display: none;">
-  <div class="account-container">
-    <div class="account-sidebar">
-      <div class="account-avatar">
-        <img src="https://ui-avatars.com/api/?background=c07a5b&color=fff&bold=true&size=100" alt="Profile" id="avatarImg">
-        <h4 id="userName">Loading...</h4>
-        <p style="color: var(--text-light);" id="userEmail"></p>
-      </div>
-      <ul class="account-menu">
-        <li class="active" data-tab="orders">📦 My Orders</li>
-        <li data-tab="profile">👤 Profile Settings</li>
-        <li data-tab="address">📍 Saved Addresses</li>
-        <li data-tab="wishlist">❤️ Wishlist</li>
-      </ul>
-      <div class="logout-btn" id="logoutBtn">
-        <i class="fas fa-sign-out-alt"></i> Sign Out
-      </div>
-    </div>
-    <div class="account-content">
-      <div id="ordersTab">
-        <h3>My Orders</h3>
-        <div id="ordersList"></div>
-      </div>
-      <div id="profileTab" style="display: none;">
-        <h3>Profile Information</h3>
-        <form id="profileForm">
-          <div class="form-group" style="margin-bottom: 1rem;">
-            <label>Full Name</label>
-            <input type="text" id="profileName" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          </div>
-          <div class="form-group" style="margin-bottom: 1rem;">
-            <label>Email</label>
-            <input type="email" id="profileEmail" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border);" readonly>
-          </div>
-          <div class="form-group" style="margin-bottom: 1rem;">
-            <label>Phone Number</label>
-            <input type="tel" id="profilePhone" placeholder="+234 XXX XXX XXXX" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-          </div>
-          <button type="submit" class="cta-button">Save Changes</button>
-        </form>
-      </div>
-      <div id="addressTab" style="display: none;">
-        <h3>Saved Addresses</h3>
-        <div id="addressesList"></div>
-        <button class="cta-button" onclick="addNewAddress()" style="margin-top: 1rem;">+ Add New Address</button>
-      </div>
-      <div id="wishlistTab" style="display: none;">
-        <h3>My Wishlist</h3>
-        <div id="wishlistItems"></div>
-      </div>
-    </div>
-  </div>
+<div class="mobile-nav" id="mobileNav">
+  <ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="collections.html">Collections</a></li><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="account.html">My Account 👤</a></li><li><a href="cart.html">Cart 🛒</a></li><li><a href="login.html">Sign In</a></li></ul>
 </div>
+<div class="overlay" id="overlay"></div>
 
-<div id="loginPrompt" style="text-align: center; padding: 4rem;">
-  <i class="fas fa-lock" style="font-size: 4rem; color: var(--text-light);"></i>
-  <h2>Please Sign In</h2>
-  <p>You need to be logged in to view your account.</p>
+<div class="cart-container" style="text-align: center; padding: 4rem;">
+  <i class="fas fa-user-circle" style="font-size: 4rem; color: var(--primary);"></i>
+  <h2>My Account</h2>
+  <p>Sign in to view your orders, wishlist, and profile.</p>
   <a href="login.html" class="cta-button" style="margin-top: 1rem; display: inline-block;">Sign In</a>
+  <p style="margin-top: 1rem;">Don't have an account? <a href="login.html">Create one</a></p>
 </div>
 
 <footer class="footer">
   <div class="footer-content">
-    <div><h3>LUXE Boutique</h3><p>Premium quality & timeless design</p></div>
-    <div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a></div>
+    <div>
+      <h3>🛍️ LUXE Marketplace</h3>
+      <p>Your one-stop shop for everything</p>
+      <p>📍 Lagos, Nigeria</p>
+      <p>📞 +234 812 345 6789</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="shop.html">Shop All</a></p>
+      <p><a href="about.html">About Us</a></p>
+      <p><a href="contact.html">Contact</a></p>
+      <p><a href="faq.html">FAQ</a></p>
+    </div>
+    <div>
+      <h4>Categories</h4>
+      <p><a href="shop.html?cat=Electronics">Electronics</a></p>
+      <p><a href="shop.html?cat=Furniture">Furniture</a></p>
+      <p><a href="shop.html?cat=Beauty">Beauty</a></p>
+      <p><a href="shop.html?cat=Groceries">Groceries</a></p>
+    </div>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
   </div>
+  <div style="text-align: center; margin-top: 2rem;">&copy; 2026 LUXE Marketplace — All rights reserved.</div>
 </footer>
 
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
 <script>
-  let currentUser = null;
+ // Hamburger menu functionality
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+const overlay = document.getElementById('overlay');
 
-  function checkAuth() {
-    const userStr = localStorage.getItem('luxe_current_user');
-    if (!userStr) {
-      document.getElementById('protectedContent').style.display = 'none';
-      document.getElementById('loginPrompt').style.display = 'block';
-      return false;
-    }
-    currentUser = JSON.parse(userStr);
-    document.getElementById('protectedContent').style.display = 'block';
-    document.getElementById('loginPrompt').style.display = 'none';
-    document.getElementById('userName').textContent = currentUser.name;
-    document.getElementById('userEmail').textContent = currentUser.email;
-    document.getElementById('profileName').value = currentUser.name;
-    document.getElementById('profileEmail').value = currentUser.email;
-    document.getElementById('avatarImg').src = `https://ui-avatars.com/api/?background=c07a5b&color=fff&bold=true&name=${currentUser.name}&size=100`;
-    loadOrders();
-    loadAddresses();
-    loadWishlist();
-    return true;
+function toggleMenu() {
+  hamburger.classList.toggle('active');
+  mobileNav.classList.toggle('active');
+  overlay.classList.toggle('active');
+  
+  // Prevent body scroll when menu is open
+  if (mobileNav.classList.contains('active')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
   }
+}
 
-  function loadOrders() {
-    const orders = JSON.parse(localStorage.getItem(`luxe_orders_${currentUser.email}`) || '[]');
-    const container = document.getElementById('ordersList');
-    if (orders.length === 0) {
-      container.innerHTML = '<p>No orders yet. <a href="shop.html">Start Shopping →</a></p>';
-      return;
-    }
-    container.innerHTML = orders.map(order => `
-      <div class="order-card">
-        <p><strong>Order #${order.id}</strong> - ${order.date}</p>
-        <p>Items: ${order.items}</p>
-        <p>Total: $${order.total}</p>
-        <span class="order-status status-${order.status}">${order.status}</span>
-      </div>
-    `).join('');
-  }
+// Close menu when clicking a link
+function closeMenu() {
+  hamburger.classList.remove('active');
+  mobileNav.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
 
-  function loadAddresses() {
-    const addresses = JSON.parse(localStorage.getItem(`luxe_addresses_${currentUser.email}`) || '[]');
-    const container = document.getElementById('addressesList');
-    if (addresses.length === 0) {
-      container.innerHTML = '<p>No saved addresses.</p>';
-      return;
-    }
-    container.innerHTML = addresses.map(addr => `
-      <div class="order-card">
-        <p><strong>${addr.name}</strong></p>
-        <p>${addr.address}, ${addr.city}, ${addr.country}</p>
-        <p>${addr.phone}</p>
-      </div>
-    `).join('');
-  }
+hamburger?.addEventListener('click', toggleMenu);
+overlay?.addEventListener('click', closeMenu);
 
-  function loadWishlist() {
-    const wishlistIds = JSON.parse(localStorage.getItem(`luxe_wishlist_${currentUser.email}`) || '[]');
-    const wishlistProducts = products.filter(p => wishlistIds.includes(p.id));
-    const container = document.getElementById('wishlistItems');
-    if (wishlistProducts.length === 0) {
-      container.innerHTML = '<p>Your wishlist is empty.</p>';
-      return;
-    }
-    container.innerHTML = wishlistProducts.map(product => `
-      <div class="order-card" style="display: flex; gap: 1rem; align-items: center;">
-        <img src="${product.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius-sm);">
-        <div style="flex: 1;">
-          <h4>${product.name}</h4>
-          <p>$${product.price}</p>
-          <button class="add-to-cart-btn" onclick="addToCart(${product.id}, 1)">Add to Cart</button>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function addNewAddress() {
-    const name = prompt('Full name on address:');
-    if (!name) return;
-    const address = prompt('Street address:');
-    if (!address) return;
-    const city = prompt('City:');
-    if (!city) return;
-    const country = prompt('Country:');
-    if (!country) return;
-    const phone = prompt('Phone number:');
-    if (!phone) return;
-    
-    const addresses = JSON.parse(localStorage.getItem(`luxe_addresses_${currentUser.email}`) || '[]');
-    addresses.push({ name, address, city, country, phone });
-    localStorage.setItem(`luxe_addresses_${currentUser.email}`, JSON.stringify(addresses));
-    loadAddresses();
-    showToast('Address added successfully!');
-  }
-
-  document.getElementById('profileForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const newName = document.getElementById('profileName').value;
-    currentUser.name = newName;
-    localStorage.setItem('luxe_current_user', JSON.stringify(currentUser));
-    
-    const users = JSON.parse(localStorage.getItem('luxe_users') || '[]');
-    const userIndex = users.findIndex(u => u.email === currentUser.email);
-    if (userIndex !== -1) users[userIndex].name = newName;
-    localStorage.setItem('luxe_users', JSON.stringify(users));
-    
-    document.getElementById('userName').textContent = newName;
-    showToast('Profile updated!');
-  });
-
-  document.getElementById('logoutBtn')?.addEventListener('click', () => {
-    localStorage.removeItem('luxe_current_user');
-    window.location.href = 'login.html';
-  });
-
-  document.querySelectorAll('.account-menu li').forEach(item => {
-    item.addEventListener('click', () => {
-      document.querySelectorAll('.account-menu li').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-      const tab = item.dataset.tab;
-      document.getElementById('ordersTab').style.display = tab === 'orders' ? 'block' : 'none';
-      document.getElementById('profileTab').style.display = tab === 'profile' ? 'block' : 'none';
-      document.getElementById('addressTab').style.display = tab === 'address' ? 'block' : 'none';
-      document.getElementById('wishlistTab').style.display = tab === 'wishlist' ? 'block' : 'none';
-    });
-  });
-
-  checkAuth();
+// Close menu when a link is clicked
+document.querySelectorAll('.mobile-nav a').forEach(link => {
+  link.addEventListener('click', closeMenu);
+});
 </script>
 </body>
 </html>
