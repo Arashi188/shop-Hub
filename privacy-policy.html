@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUXE | Privacy Policy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .legal-container {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    .legal-container h2 { margin-top: 2rem; margin-bottom: 1rem; }
+    .legal-container p { margin-bottom: 1rem; line-height: 1.6; color: var(--text-light); }
+    .last-updated { color: var(--text-light); font-style: italic; margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="nav-container">
+    <a href="index.html" class="logo">🛍️ LUXE</a>
+    <ul class="nav-links desktop-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="privacy-policy.html" class="active">Privacy</a></li>
+      <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <ul>
+    <li><a href="index.html">🏠 Home</a></li>
+    <li><a href="shop.html">🛍️ Shop</a></li>
+    <li><a href="collections.html">📁 Collections</a></li>
+    <li><a href="about.html">📖 About</a></li>
+    <li><a href="blog.html">📝 Blog</a></li>
+    <li><a href="contact.html">📞 Contact</a></li>
+    <li><a href="wishlist.html">❤️ Wishlist</a></li>
+    <li><a href="cart.html">🛒 Cart</a></li>
+    <li><a href="sustainability.html">🌱 Sustainability</a></li>
+    <li><a href="size-guide.html">📏 Size Guide</a></li>
+    <li><a href="shipping-info.html">🚚 Shipping</a></li>
+    <li><a href="returns-policy.html">🔄 Returns</a></li>
+    <li><a href="faq.html">❓ FAQ</a></li>
+    <li><a href="account.html">👤 My Account</a></li>
+    <li><a href="login.html">🔑 Sign In</a></li>
+  </ul>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<div class="legal-container">
+  <h1>Privacy Policy</h1>
+  <div class="last-updated">Last Updated: January 1, 2025</div>
+  
+  <h2>Information We Collect</h2>
+  <p>We collect information you provide directly to us, such as when you create an account, place an order, or contact us. This may include your name, email address, phone number, shipping address, and payment information.</p>
+  
+  <h2>How We Use Your Information</h2>
+  <p>We use your information to process orders, communicate with you about your purchases, send marketing communications (with your consent), and improve our services.</p>
+  
+  <h2>Data Security</h2>
+  <p>We implement appropriate security measures to protect your personal information. All transactions are encrypted using SSL technology.</p>
+  
+  <h2>Cookies</h2>
+  <p>We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. You can disable cookies in your browser settings.</p>
+  
+  <h2>Third-Party Services</h2>
+  <p>We may share your information with shipping carriers, payment processors, and service providers who assist in operating our website.</p>
+  
+  <h2>Your Rights</h2>
+  <p>You have the right to access, correct, or delete your personal information. Contact us at privacy@luxe.com for assistance.</p>
+  
+  <h2>Contact Us</h2>
+  <p>If you have questions about this privacy policy, please contact us at privacy@luxe.com or call +234 812 345 6789.</p>
+</div>
+
+<footer class="footer"><div class="footer-content"><div><h3>🛍️ LUXE Marketplace</h3></div></div></footer>
+
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  const overlay = document.getElementById('overlay');
+  function toggleMenu() { hamburger.classList.toggle('active'); mobileNav.classList.toggle('active'); overlay.classList.toggle('active'); document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : ''; }
+  hamburger?.addEventListener('click', toggleMenu);
+  overlay?.addEventListener('click', toggleMenu);
+  document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', toggleMenu));
+  updateCartCount();
+</script>
+</body>
+</html>

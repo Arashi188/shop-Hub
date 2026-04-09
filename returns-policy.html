@@ -3,41 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUXE | Blog</title>
+  <title>LUXE | Returns Policy</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    .blog-hero {
-      background: linear-gradient(135deg, #1e1e2a 0%, #2c2c36 100%);
-      height: 30vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-    }
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 2rem;
-      max-width: 1280px;
+    .info-container {
+      max-width: 900px;
       margin: 3rem auto;
-      padding: 0 2rem;
-    }
-    .blog-card {
+      padding: 2rem;
       background: var(--surface);
       border-radius: var(--radius-lg);
-      overflow: hidden;
-      transition: all 0.3s;
+      box-shadow: var(--shadow-sm);
     }
-    .blog-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
-    .blog-img { width: 100%; height: 250px; object-fit: cover; }
-    .blog-content { padding: 1.5rem; }
-    .blog-meta { color: var(--text-light); font-size: 0.8rem; margin-bottom: 0.5rem; }
-    .blog-title { font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .read-more { color: var(--primary); text-decoration: none; font-weight: 600; display: inline-block; margin-top: 1rem; }
-    @media (max-width: 768px) { .blog-grid { grid-template-columns: 1fr; padding: 0 1rem; } }
+    .return-card {
+      background: var(--background);
+      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--primary);
+    }
   </style>
 </head>
 <body>
@@ -45,14 +30,11 @@
 <header class="header">
   <div class="nav-container">
     <a href="index.html" class="logo">🛍️ LUXE</a>
-    <ul class="nav-links">
+    <ul class="nav-links desktop-nav">
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
-      <li><a href="collections.html">Collections</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="returns-policy.html" class="active">Returns</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
       <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
     </ul>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
@@ -80,12 +62,39 @@
 </div>
 <div class="overlay" id="overlay"></div>
 
-<section class="blog-hero"><div><h1>LUXE Journal</h1><p>Style inspiration, sustainability, and behind the scenes</p></div></section>
-
-<div class="blog-grid">
-  <div class="blog-card"><img class="blog-img" src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&auto=format"><div class="blog-content"><div class="blog-meta"><i class="far fa-calendar"></i> March 15, 2025</div><h3 class="blog-title">5 Ways to Style Your New Purchase</h3><p>Discover versatile ways to make the most of your new items.</p><a href="#" class="read-more">Read More →</a></div></div>
-  <div class="blog-card"><img class="blog-img" src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&auto=format"><div class="blog-content"><div class="blog-meta"><i class="far fa-calendar"></i> March 8, 2025</div><h3 class="blog-title">Sustainable Shopping Guide</h3><p>How to make eco-friendly choices while shopping.</p><a href="#" class="read-more">Read More →</a></div></div>
-  <div class="blog-card"><img class="blog-img" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&auto=format"><div class="blog-content"><div class="blog-meta"><i class="far fa-calendar"></i> February 28, 2025</div><h3 class="blog-title">Top Trends This Season</h3><p>What's hot right now in the world of shopping.</p><a href="#" class="read-more">Read More →</a></div></div>
+<div class="info-container">
+  <h1>Return & Refund Policy</h1>
+  <div class="last-updated">Last Updated: January 1, 2025</div>
+  
+  <div class="return-card">
+    <h3><i class="fas fa-calendar-alt"></i> 30-Day Return Window</h3>
+    <p>You have 30 days from the date of delivery to request a return for most products. Items must be unused, in original packaging, and with all tags attached.</p>
+  </div>
+  
+  <div class="return-card">
+    <h3><i class="fas fa-ban"></i> Non-Returnable Items</h3>
+    <p>The following items cannot be returned: perishable goods, custom products, personal care items, gift cards, and clearance items.</p>
+  </div>
+  
+  <div class="return-card">
+    <h3><i class="fas fa-exchange-alt"></i> How to Initiate a Return</h3>
+    <p>1. Log into your account and go to Orders<br>2. Select the item you wish to return<br>3. Follow the instructions to print a return label<br>4. Package your item securely and ship it back</p>
+  </div>
+  
+  <div class="return-card">
+    <h3><i class="fas fa-dollar-sign"></i> Refunds</h3>
+    <p>Once we receive your return, we will inspect the item and process your refund within 5-7 business days. Refunds will be issued to your original payment method.</p>
+  </div>
+  
+  <div class="return-card">
+    <h3><i class="fas fa-truck"></i> Return Shipping</h3>
+    <p>If the return is due to our error (wrong or defective item), we will cover shipping costs. Otherwise, return shipping is the customer's responsibility.</p>
+  </div>
+  
+  <div class="return-card">
+    <h3><i class="fas fa-envelope"></i> Need Help?</h3>
+    <p>Contact our returns team at returns@luxe.com or call +234 812 345 6789</p>
+  </div>
 </div>
 
 <footer class="footer">
@@ -143,39 +152,14 @@
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
 <script>
- // Hamburger menu functionality
-const hamburger = document.getElementById('hamburger');
-const mobileNav = document.getElementById('mobileNav');
-const overlay = document.getElementById('overlay');
-
-function toggleMenu() {
-  hamburger.classList.toggle('active');
-  mobileNav.classList.toggle('active');
-  overlay.classList.toggle('active');
-  
-  // Prevent body scroll when menu is open
-  if (mobileNav.classList.contains('active')) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
-}
-
-// Close menu when clicking a link
-function closeMenu() {
-  hamburger.classList.remove('active');
-  mobileNav.classList.remove('active');
-  overlay.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-hamburger?.addEventListener('click', toggleMenu);
-overlay?.addEventListener('click', closeMenu);
-
-// Close menu when a link is clicked
-document.querySelectorAll('.mobile-nav a').forEach(link => {
-  link.addEventListener('click', closeMenu);
-});
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  const overlay = document.getElementById('overlay');
+  function toggleMenu() { hamburger.classList.toggle('active'); mobileNav.classList.toggle('active'); overlay.classList.toggle('active'); document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : ''; }
+  hamburger?.addEventListener('click', toggleMenu);
+  overlay?.addEventListener('click', toggleMenu);
+  document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', toggleMenu));
+  updateCartCount();
 </script>
 </body>
 </html>

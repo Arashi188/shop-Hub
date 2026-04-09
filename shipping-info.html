@@ -3,41 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUXE | Blog</title>
+  <title>LUXE | Shipping Information</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    .blog-hero {
-      background: linear-gradient(135deg, #1e1e2a 0%, #2c2c36 100%);
-      height: 30vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-    }
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 2rem;
-      max-width: 1280px;
+    .info-container {
+      max-width: 900px;
       margin: 3rem auto;
-      padding: 0 2rem;
-    }
-    .blog-card {
+      padding: 2rem;
       background: var(--surface);
       border-radius: var(--radius-lg);
-      overflow: hidden;
-      transition: all 0.3s;
+      box-shadow: var(--shadow-sm);
     }
-    .blog-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
-    .blog-img { width: 100%; height: 250px; object-fit: cover; }
-    .blog-content { padding: 1.5rem; }
-    .blog-meta { color: var(--text-light); font-size: 0.8rem; margin-bottom: 0.5rem; }
-    .blog-title { font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .read-more { color: var(--primary); text-decoration: none; font-weight: 600; display: inline-block; margin-top: 1rem; }
-    @media (max-width: 768px) { .blog-grid { grid-template-columns: 1fr; padding: 0 1rem; } }
+    .shipping-card {
+      background: var(--background);
+      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      margin-bottom: 1.5rem;
+    }
   </style>
 </head>
 <body>
@@ -45,14 +29,11 @@
 <header class="header">
   <div class="nav-container">
     <a href="index.html" class="logo">🛍️ LUXE</a>
-    <ul class="nav-links">
+    <ul class="nav-links desktop-nav">
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
-      <li><a href="collections.html">Collections</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="shipping-info.html" class="active">Shipping</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
       <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
     </ul>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
@@ -80,12 +61,37 @@
 </div>
 <div class="overlay" id="overlay"></div>
 
-<section class="blog-hero"><div><h1>LUXE Journal</h1><p>Style inspiration, sustainability, and behind the scenes</p></div></section>
-
-<div class="blog-grid">
-  <div class="blog-card"><img class="blog-img" src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&auto=format"><div class="blog-content"><div class="blog-meta"><i class="far fa-calendar"></i> March 15, 2025</div><h3 class="blog-title">5 Ways to Style Your New Purchase</h3><p>Discover versatile ways to make the most of your new items.</p><a href="#" class="read-more">Read More →</a></div></div>
-  <div class="blog-card"><img class="blog-img" src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&auto=format"><div class="blog-content"><div class="blog-meta"><i class="far fa-calendar"></i> March 8, 2025</div><h3 class="blog-title">Sustainable Shopping Guide</h3><p>How to make eco-friendly choices while shopping.</p><a href="#" class="read-more">Read More →</a></div></div>
-  <div class="blog-card"><img class="blog-img" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&auto=format"><div class="blog-content"><div class="blog-meta"><i class="far fa-calendar"></i> February 28, 2025</div><h3 class="blog-title">Top Trends This Season</h3><p>What's hot right now in the world of shopping.</p><a href="#" class="read-more">Read More →</a></div></div>
+<div class="info-container">
+  <h1>Shipping Information</h1>
+  <div class="last-updated">Last Updated: January 1, 2025</div>
+  
+  <div class="shipping-card">
+    <h3><i class="fas fa-map-marker-alt"></i> Domestic Shipping (Nigeria)</h3>
+    <p>Standard Shipping: 2-5 business days - ₦2,500 or FREE on orders over ₦50,000</p>
+    <p>Express Shipping: 1-2 business days - ₦5,000</p>
+  </div>
+  
+  <div class="shipping-card">
+    <h3><i class="fas fa-globe"></i> International Shipping</h3>
+    <p>Standard International: 7-14 business days - $15 or FREE on orders over $100</p>
+    <p>Express International: 3-5 business days - $30</p>
+    <p><small>We ship to over 50 countries worldwide!</small></p>
+  </div>
+  
+  <div class="shipping-card">
+    <h3><i class="fas fa-clock"></i> Order Processing</h3>
+    <p>Orders are processed within 1-2 business days. You will receive a confirmation email with tracking information once your order ships.</p>
+  </div>
+  
+  <div class="shipping-card">
+    <h3><i class="fas fa-box"></i> Tracking Your Order</h3>
+    <p>Track your order using the tracking number sent to your email. You can also check your order status in your account dashboard.</p>
+  </div>
+  
+  <div class="shipping-card">
+    <h3><i class="fas fa-question-circle"></i> Questions?</h3>
+    <p>Contact our support team at shipping@luxe.com or call +234 812 345 6789</p>
+  </div>
 </div>
 
 <footer class="footer">
@@ -143,39 +149,14 @@
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
 <script>
- // Hamburger menu functionality
-const hamburger = document.getElementById('hamburger');
-const mobileNav = document.getElementById('mobileNav');
-const overlay = document.getElementById('overlay');
-
-function toggleMenu() {
-  hamburger.classList.toggle('active');
-  mobileNav.classList.toggle('active');
-  overlay.classList.toggle('active');
-  
-  // Prevent body scroll when menu is open
-  if (mobileNav.classList.contains('active')) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
-}
-
-// Close menu when clicking a link
-function closeMenu() {
-  hamburger.classList.remove('active');
-  mobileNav.classList.remove('active');
-  overlay.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-hamburger?.addEventListener('click', toggleMenu);
-overlay?.addEventListener('click', closeMenu);
-
-// Close menu when a link is clicked
-document.querySelectorAll('.mobile-nav a').forEach(link => {
-  link.addEventListener('click', closeMenu);
-});
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  const overlay = document.getElementById('overlay');
+  function toggleMenu() { hamburger.classList.toggle('active'); mobileNav.classList.toggle('active'); overlay.classList.toggle('active'); document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : ''; }
+  hamburger?.addEventListener('click', toggleMenu);
+  overlay?.addEventListener('click', toggleMenu);
+  document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', toggleMenu));
+  updateCartCount();
 </script>
 </body>
 </html>
