@@ -13,15 +13,15 @@
 <header class="header">
   <div class="nav-container">
     <a href="index.html" class="logo">🛍️ LUXE</a>
-    <ul class="nav-links">
+    <ul class="nav-links desktop-nav">
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
       <li><a href="collections.html">Collections</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="blog.html">Blog</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="account.html" class="active"><i class="fas fa-user"></i></a></li>
+      <li><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
       <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
+      <li><a href="login.html" id="desktopAuthLink"><i class="fas fa-user"></i> Account</a></li>
     </ul>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
@@ -29,121 +29,144 @@
 
 <div class="mobile-nav" id="mobileNav">
   <ul>
-    <li><a href="index.html">🏠 Home</a></li>
-    <li><a href="shop.html">🛍️ Shop</a></li>
-    <li><a href="collections.html">📁 Collections</a></li>
-    <li><a href="about.html">📖 About</a></li>
-    <li><a href="blog.html">📝 Blog</a></li>
-    <li><a href="contact.html">📞 Contact</a></li>
-    <li><a href="wishlist.html">❤️ Wishlist</a></li>
-    <li><a href="cart.html">🛒 Cart</a></li>
-    <li><a href="sustainability.html">🌱 Sustainability</a></li>
-    <li><a href="size-guide.html">📏 Size Guide</a></li>
-    <li><a href="shipping-info.html">🚚 Shipping</a></li>
-    <li><a href="returns-policy.html">🔄 Returns</a></li>
-    <li><a href="faq.html">❓ FAQ</a></li>
-    <li><a href="account.html">👤 My Account</a></li>
-    <li><a href="login.html">🔑 Sign In</a></li>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="collections.html">Collections</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="wishlist.html">Wishlist</a></li>
+    <li><a href="cart.html">Cart</a></li>
+    <li><a href="login.html">Sign In</a></li>
   </ul>
 </div>
 <div class="overlay" id="overlay"></div>
 
-<div class="cart-container" style="text-align: center; padding: 4rem;">
-  <i class="fas fa-user-circle" style="font-size: 4rem; color: var(--primary);"></i>
-  <h2>My Account</h2>
-  <p>Sign in to view your orders, wishlist, and profile.</p>
+<div id="loggedInContent" style="display: none;">
+  <div class="account-container" style="max-width: 1280px; margin: 3rem auto; padding: 2rem;">
+    <div class="account-sidebar" style="background: var(--surface); border-radius: var(--radius-md); padding: 2rem;">
+      <div style="text-align: center;">
+        <i class="fas fa-user-circle" style="font-size: 4rem; color: var(--primary);"></i>
+        <h3 id="userNameDisplay">Loading...</h3>
+        <p id="userEmailDisplay" style="color: var(--text-light);"></p>
+      </div>
+      <hr style="margin: 1.5rem 0;">
+      <button onclick="logout()" class="cta-button" style="width: 100%; background: #e74c3c;">Sign Out</button>
+    </div>
+    <div class="account-content" style="background: var(--surface); border-radius: var(--radius-md); padding: 2rem;">
+      <h2>Welcome back, <span id="welcomeName">Guest</span>!</h2>
+      <p>This is your account dashboard. Here you can view your orders, manage your profile, and more.</p>
+      
+      <div style="margin-top: 2rem;">
+        <h3>Your Orders</h3>
+        <div id="ordersList" style="margin-top: 1rem;">
+          <p>No orders yet. <a href="shop.html">Start Shopping →</a></p>
+        </div>
+      </div>
+      
+      <div style="margin-top: 2rem;">
+        <h3>Account Information</h3>
+        <p><strong>Name:</strong> <span id="profileName"></span></p>
+        <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+        <p><strong>Member since:</strong> <span id="memberSince"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="notLoggedInContent" style="display: none; text-align: center; padding: 4rem;">
+  <i class="fas fa-lock" style="font-size: 4rem; color: var(--text-light);"></i>
+  <h2>Please Sign In</h2>
+  <p>You need to be logged in to view your account.</p>
   <a href="login.html" class="cta-button" style="margin-top: 1rem; display: inline-block;">Sign In</a>
   <p style="margin-top: 1rem;">Don't have an account? <a href="login.html">Create one</a></p>
 </div>
 
 <footer class="footer">
   <div class="footer-content">
-    <div>
-      <h3>🛍️ LUXE Marketplace</h3>
-      <p>Your one-stop shop for everything</p>
-      <p>📍 Lagos, Nigeria</p>
-      <p>📞 +234 812 345 6789</p>
-      <p>✉️ hello@luxe.com</p>
-    </div>
-    
-    <div>
-      <h4>Quick Links</h4>
-      <p><a href="shop.html">Shop All</a></p>
-      <p><a href="collections.html">Collections</a></p>
-      <p><a href="about.html">About Us</a></p>
-      <p><a href="blog.html">Blog</a></p>
-      <p><a href="contact.html">Contact</a></p>
-      <p><a href="sustainability.html">🌱 Sustainability</a></p>
-    </div>
-    
-    <div>
-      <h4>Help & Info</h4>
-      <p><a href="faq.html">FAQ</a></p>
-      <p><a href="size-guide.html">📏 Size Guide</a></p>
-      <p><a href="shipping-info.html">🚚 Shipping Info</a></p>
-      <p><a href="returns-policy.html">🔄 Returns Policy</a></p>
-      <p><a href="track-order.html">Track Order</a></p>
-    </div>
-    
-    <div>
-      <h4>Legal</h4>
-      <p><a href="privacy-policy.html">Privacy Policy</a></p>
-      <p><a href="terms-of-service.html">Terms of Service</a></p>
-      <p><a href="cookie-policy.html">Cookie Policy</a></p>
-    </div>
-    
-    <div>
-      <h4>Follow Us</h4>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-whatsapp"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-      </div>
-    </div>
-  </div>
-  <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
-    <p>&copy; 2026 LUXE Marketplace — All rights reserved.</p>
+    <div><h3>🛍️ LUXE Marketplace</h3></div>
+    <div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a></div>
   </div>
 </footer>
 
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
 <script>
- // Hamburger menu functionality
-const hamburger = document.getElementById('hamburger');
-const mobileNav = document.getElementById('mobileNav');
-const overlay = document.getElementById('overlay');
-
-function toggleMenu() {
-  hamburger.classList.toggle('active');
-  mobileNav.classList.toggle('active');
-  overlay.classList.toggle('active');
-  
-  // Prevent body scroll when menu is open
-  if (mobileNav.classList.contains('active')) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
+  function checkLoginStatus() {
+    const currentUser = localStorage.getItem('luxe_current_user');
+    
+    if (currentUser) {
+      const user = JSON.parse(currentUser);
+      document.getElementById('loggedInContent').style.display = 'block';
+      document.getElementById('notLoggedInContent').style.display = 'none';
+      
+      document.getElementById('userNameDisplay').textContent = user.name;
+      document.getElementById('userEmailDisplay').textContent = user.email;
+      document.getElementById('welcomeName').textContent = user.name.split(' ')[0];
+      document.getElementById('profileName').textContent = user.name;
+      document.getElementById('profileEmail').textContent = user.email;
+      
+      // Get user registration date
+      const users = JSON.parse(localStorage.getItem('luxe_users') || '[]');
+      const userData = users.find(u => u.email === user.email);
+      if (userData && userData.registeredDate) {
+        document.getElementById('memberSince').textContent = userData.registeredDate;
+      } else {
+        document.getElementById('memberSince').textContent = 'Recently joined';
+      }
+      
+      // Load orders
+      const orders = JSON.parse(localStorage.getItem('luxe_all_orders') || '[]');
+      const userOrders = orders.filter(o => o.customerEmail === user.email);
+      const ordersContainer = document.getElementById('ordersList');
+      if (userOrders.length === 0) {
+        ordersContainer.innerHTML = '<p>No orders yet. <a href="shop.html">Start Shopping →</a></p>';
+      } else {
+        ordersContainer.innerHTML = userOrders.map(order => `
+          <div style="border: 1px solid var(--border); padding: 1rem; margin-bottom: 1rem; border-radius: var(--radius-sm);">
+            <p><strong>Order #${order.id}</strong> - ${order.date || 'Recent'}</p>
+            <p>Status: ${order.status || 'Processing'}</p>
+            <p>Total: $${(order.total || 0).toFixed(2)}</p>
+          </div>
+        `).join('');
+      }
+    } else {
+      document.getElementById('loggedInContent').style.display = 'none';
+      document.getElementById('notLoggedInContent').style.display = 'block';
+    }
   }
-}
-
-// Close menu when clicking a link
-function closeMenu() {
-  hamburger.classList.remove('active');
-  mobileNav.classList.remove('active');
-  overlay.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-hamburger?.addEventListener('click', toggleMenu);
-overlay?.addEventListener('click', closeMenu);
-
-// Close menu when a link is clicked
-document.querySelectorAll('.mobile-nav a').forEach(link => {
-  link.addEventListener('click', closeMenu);
-});
+  
+  function logout() {
+    localStorage.removeItem('luxe_current_user');
+    window.location.href = 'login.html';
+  }
+  
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  const overlay = document.getElementById('overlay');
+  
+  function toggleMenu() {
+    hamburger.classList.toggle('active');
+    mobileNav.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+  }
+  
+  hamburger?.addEventListener('click', toggleMenu);
+  overlay?.addEventListener('click', toggleMenu);
+  document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', toggleMenu));
+  
+  checkLoginStatus();
+  updateCartCount();
+  
+  // Update auth link in header
+  const currentUser = localStorage.getItem('luxe_current_user');
+  const desktopAuthLink = document.getElementById('desktopAuthLink');
+  if (currentUser && desktopAuthLink) {
+    const user = JSON.parse(currentUser);
+    desktopAuthLink.innerHTML = `<i class="fas fa-user"></i> ${user.name.split(' ')[0]}`;
+    desktopAuthLink.href = 'account.html';
+  }
 </script>
 </body>
 </html>

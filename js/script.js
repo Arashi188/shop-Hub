@@ -65,3 +65,69 @@ function buyOnWhatsApp(product, quantity = 1) {
   const waLink = `https://wa.me/${phone}?text=${encodedMsg}`;
   window.open(waLink, '_blank');
 }
+
+// Update authentication link in header based on login status
+function updateAuthLink() {
+  const currentUser = localStorage.getItem('luxe_current_user');
+  const desktopAuthLink = document.getElementById('desktopAuthLink');
+  const mobileAuthLink = document.getElementById('mobileAuthLink');
+  
+  if (currentUser) {
+    const user = JSON.parse(currentUser);
+    if (desktopAuthLink) {
+      desktopAuthLink.innerHTML = `<i class="fas fa-user"></i> ${user.name.split(' ')[0]}`;
+      desktopAuthLink.href = 'account.html';
+    }
+    if (mobileAuthLink) {
+      mobileAuthLink.innerHTML = `👤 ${user.name.split(' ')[0]}`;
+      mobileAuthLink.href = 'account.html';
+    }
+  } else {
+    if (desktopAuthLink) {
+      desktopAuthLink.innerHTML = `<i class="fas fa-user"></i> Sign In`;
+      desktopAuthLink.href = 'login.html';
+    }
+    if (mobileAuthLink) {
+      mobileAuthLink.innerHTML = `🔑 Sign In / Register`;
+      mobileAuthLink.href = 'login.html';
+    }
+  }
+}
+
+// Call this function on page load
+document.addEventListener('DOMContentLoaded', function() {
+  updateAuthLink();
+});
+
+// Update auth link in header
+function updateAuthLink() {
+  const currentUser = localStorage.getItem('luxe_current_user');
+  const desktopAuthLink = document.getElementById('desktopAuthLink');
+  const mobileAuthLink = document.getElementById('mobileAuthLink');
+  
+  if (currentUser) {
+    const user = JSON.parse(currentUser);
+    if (desktopAuthLink) {
+      desktopAuthLink.innerHTML = `<i class="fas fa-user"></i> ${user.name.split(' ')[0]}`;
+      desktopAuthLink.href = 'account.html';
+    }
+    if (mobileAuthLink) {
+      mobileAuthLink.innerHTML = `👤 ${user.name.split(' ')[0]}`;
+      mobileAuthLink.href = 'account.html';
+    }
+  } else {
+    if (desktopAuthLink) {
+      desktopAuthLink.innerHTML = `<i class="fas fa-user"></i> Sign In`;
+      desktopAuthLink.href = 'login.html';
+    }
+    if (mobileAuthLink) {
+      mobileAuthLink.innerHTML = `🔑 Sign In / Register`;
+      mobileAuthLink.href = 'login.html';
+    }
+  }
+}
+
+// Call this when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  updateAuthLink();
+});
