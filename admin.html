@@ -179,6 +179,18 @@
       padding: 3rem;
       color: var(--text-light);
     }
+    .ai-badge {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-left: 8px;
+    }
+    .generating {
+      opacity: 0.7;
+      pointer-events: none;
+    }
     @media (max-width: 768px) {
       .admin-container { padding: 0.5rem; }
       .admin-table { font-size: 0.8rem; }
@@ -228,7 +240,7 @@
   
   <!-- Products Tab -->
   <div id="productsTab">
-    <h3>➕ Add New Product</h3>
+    <h3>➕ Add New Product <span class="ai-badge">🤖 AI Powered</span></h3>
     <div class="product-form">
       <input type="text" id="productName" placeholder="Product Name (e.g., Premium Leather Bag)">
       <input type="number" id="productPrice" placeholder="Price in Naira (e.g., 45000)">
@@ -254,8 +266,22 @@
       <input type="file" id="productImageInput" accept="image/*" style="display: none;" onchange="previewImage(this)">
       <input type="hidden" id="productImage" value="">
       
-      <input type="text" id="productShortDesc" placeholder="Short Description (e.g., High quality, durable)">
-      <textarea id="productFullDesc" rows="2" placeholder="Full Description (detailed product information)"></textarea>
+      <!-- Short Description with AI Generate Button -->
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <input type="text" id="productShortDesc" placeholder="Short Description" style="flex: 1;">
+        <button type="button" onclick="generateShortDescription()" style="background: #667eea; white-space: nowrap;">
+          <i class="fas fa-magic"></i> AI Generate
+        </button>
+      </div>
+      
+      <!-- Full Description with AI Generate Button -->
+      <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
+        <textarea id="productFullDesc" rows="3" placeholder="Full Description (detailed product information)" style="flex: 1;"></textarea>
+        <button type="button" onclick="generateFullDescription()" style="background: #667eea; height: 50px;">
+          <i class="fas fa-magic"></i> AI Generate
+        </button>
+      </div>
+      
       <button onclick="addProduct()"><i class="fas fa-plus"></i> Add Product</button>
     </div>
     
@@ -263,12 +289,21 @@
     <div class="admin-table">
       <table>
         <thead>
-          <tr><th>ID</th><th>Image</th><th>Name</th><th>Price (₦)</th><th>Category</th><th>Actions</th></tr>
+          <tr>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price (₦)</th>
+            <th>Category</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody id="productsTableBody">
-          <tr><td colspan="6" class="empty-state">No products yet. Click "Add Product" to get started! 🚀</td></tr>
+          <tr>
+            <td colspan="6" class="empty-state">No products yet. Click "Add Product" to get started! 🚀</td>
+          </tr>
         </tbody>
-       </table>
+      </table>
     </div>
     
     <div style="margin-top: 1rem;">
@@ -286,12 +321,22 @@
     <div class="admin-table">
       <table>
         <thead>
-          <tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total (₦)</th><th>Date</th><th>Status</th><th>Action</th></tr>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Items</th>
+            <th>Total (₦)</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
         </thead>
         <tbody id="ordersTableBody">
-          <tr><td colspan="7" class="empty-state">No orders yet. Orders will appear here when customers checkout.</td></tr>
+          <tr>
+            <td colspan="7" class="empty-state">No orders yet. Orders will appear here when customers checkout.</td>
+          </tr>
         </tbody>
-       </table>
+      </table>
     </div>
   </div>
   
@@ -301,12 +346,20 @@
     <div class="admin-table">
       <table>
         <thead>
-          <tr><th>Email</th><th>Name</th><th>Registered Date</th><th>Orders</th><th>Action</th></tr>
+          <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Registered Date</th>
+            <th>Orders</th>
+            <th>Action</th>
+          </tr>
         </thead>
         <tbody id="usersTableBody">
-          <tr><td colspan="5" class="empty-state">No registered users yet.</td></tr>
+          <tr>
+            <td colspan="5" class="empty-state">No registered users yet.</td>
+          </tr>
         </tbody>
-       </table>
+      </table>
     </div>
   </div>
   
@@ -325,6 +378,11 @@
         <button onclick="updateWhatsAppNumber()">Update WhatsApp</button>
       </div>
       <div>
+        <label>📧 Email Address:</label>
+        <input type="email" id="adminEmail" placeholder="Email address">
+        <button onclick="updateEmail()">Update Email</button>
+      </div>
+      <div>
         <label>🏪 Store Name:</label>
         <input type="text" id="storeName" placeholder="Store Name">
         <button onclick="updateStoreName()">Update Store Name</button>
@@ -335,6 +393,9 @@
 
 <script src="js/data.js"></script>
 <script>
+  // ============================================
+  // SECURITY: Admin Access Check
+  // ============================================
   const SECRET_KEY = "LUXE_ADMIN_2025";
   
   function checkAdminAccess() {
@@ -351,6 +412,117 @@
   }
   
   if (!checkAdminAccess()) throw new Error("Unauthorized");
+  
+  // ============================================
+  // AI DESCRIPTION GENERATOR (No API Needed)
+  // ============================================
+  
+  const adjectives = {
+    quality: ['Premium', 'High-Quality', 'Professional', 'Luxury', 'Durable', 'Elegant', 'Stylish', 'Modern', 'Sleek', 'Compact', 'Heavy-duty', 'Reliable'],
+    size: ['Compact', 'Spacious', 'Portable', 'Lightweight', 'Full-size', 'Mini', 'Extra-large', 'Standard'],
+    benefit: ['Eco-friendly', 'Easy to use', 'Long-lasting', 'Time-saving', 'Cost-effective', 'Energy-efficient', 'Versatile', 'Multi-functional', 'User-friendly']
+  };
+  
+  const categoryKeywords = {
+    Electronics: ['advanced technology', 'latest model', 'high performance', 'smart features', 'long battery life', 'Bluetooth connectivity', 'fast charging', 'crystal clear sound'],
+    Furniture: ['solid wood', 'modern design', 'comfortable', 'space-saving', 'easy assembly', 'sturdy construction', 'ergonomic', 'premium finish'],
+    Beauty: ['natural ingredients', 'gentle on skin', 'professional results', 'cruelty-free', 'long-lasting', 'moisturizing', 'organic formula', 'dermatologist tested'],
+    Groceries: ['fresh', 'organic', 'premium quality', 'authentic taste', 'healthy', 'nutritious', 'farm fresh', 'preservative-free'],
+    Toys: ['fun', 'educational', 'safe materials', 'creative play', 'durable', 'age-appropriate', 'non-toxic', 'child-friendly'],
+    Sports: ['professional grade', 'durable', 'high performance', 'comfortable fit', 'breathable', 'shock-absorbing', 'lightweight', 'anti-slip'],
+    Books: ['bestseller', 'award-winning', 'informative', 'engaging', 'well-written', 'page-turner', 'thought-provoking', 'inspiring'],
+    Fashion: ['trendy', 'comfortable fit', 'breathable fabric', 'versatile style', 'seasonal', 'high-quality material', 'stylish', 'elegant design'],
+    Home: ['decorative', 'functional', 'space-saving', 'easy to clean', 'modern aesthetic', 'durable material', 'stylish', 'practical']
+  };
+  
+  const actionVerbs = ['Experience', 'Enjoy', 'Discover', 'Upgrade', 'Transform', 'Enhance', 'Simplify', 'Elevate', 'Revolutionize', 'Perfect'];
+  
+  const guarantees = [
+    'Backed by our satisfaction guarantee.',
+    'Order now and enjoy fast delivery across Nigeria.',
+    'Shop with confidence - quality guaranteed.',
+    'Customer satisfaction is our top priority.',
+    'Limited stock available - order today!',
+    '30-day money-back guarantee on all purchases.'
+  ];
+  
+  function generateShortDescription() {
+    const productName = document.getElementById('productName').value;
+    const category = document.getElementById('productCategory').value;
+    
+    if (!productName) {
+      alert('Please enter a product name first');
+      return;
+    }
+    
+    const shortDescInput = document.getElementById('productShortDesc');
+    shortDescInput.placeholder = '🤖 AI is thinking...';
+    shortDescInput.classList.add('generating');
+    
+    setTimeout(() => {
+      const adj1 = adjectives.quality[Math.floor(Math.random() * adjectives.quality.length)];
+      const adj2 = adjectives.size[Math.floor(Math.random() * adjectives.size.length)];
+      const keywords = categoryKeywords[category] || categoryKeywords.Electronics;
+      const keyword = keywords[Math.floor(Math.random() * keywords.length)];
+      
+      const templates = [
+        `${adj1} ${productName}. ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}. Perfect for everyday use.`,
+        `${adj2} ${productName} with ${keyword}. ${adj1} quality at an affordable price.`,
+        `${actionVerbs[Math.floor(Math.random() * actionVerbs.length)]} the ${adj1.toLowerCase()} ${productName}. ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}.`,
+        `${adj1} and ${adj2.toLowerCase()} ${productName}. Features ${keyword}. Great value for money!`
+      ];
+      
+      shortDescInput.value = templates[Math.floor(Math.random() * templates.length)];
+      shortDescInput.placeholder = 'Short Description';
+      shortDescInput.classList.remove('generating');
+      showToast('✨ AI generated short description!');
+    }, 300);
+  }
+  
+  function generateFullDescription() {
+    const productName = document.getElementById('productName').value;
+    const price = document.getElementById('productPrice').value;
+    const category = document.getElementById('productCategory').value;
+    
+    if (!productName) {
+      alert('Please enter a product name first');
+      return;
+    }
+    
+    const fullDescInput = document.getElementById('productFullDesc');
+    fullDescInput.placeholder = '🤖 AI is writing a detailed description...';
+    fullDescInput.classList.add('generating');
+    
+    setTimeout(() => {
+      const adj1 = adjectives.quality[Math.floor(Math.random() * adjectives.quality.length)];
+      const adj2 = adjectives.benefit[Math.floor(Math.random() * adjectives.benefit.length)];
+      const verb = actionVerbs[Math.floor(Math.random() * actionVerbs.length)];
+      const guarantee = guarantees[Math.floor(Math.random() * guarantees.length)];
+      
+      const keywords = categoryKeywords[category] || categoryKeywords.Electronics;
+      const kw1 = keywords[Math.floor(Math.random() * keywords.length)];
+      const kw2 = keywords[Math.floor(Math.random() * keywords.length)];
+      
+      const priceNaira = price ? `₦${parseInt(price).toLocaleString('en-NG')}` : 'a competitive price';
+      
+      const templates = [
+        `✨ **Product Overview**\n\n${verb} the ultimate ${adj1.toLowerCase()} ${productName}, designed with ${kw1} and ${kw2}. Whether you're at home or on the go, this product delivers exceptional performance and reliability.\n\n🔧 **Key Features**\n• ${adj1} construction for long-lasting durability\n• ${adj2} design for maximum convenience\n• Premium quality materials used throughout\n• ${kw1.charAt(0).toUpperCase() + kw1.slice(1)}\n• ${kw2.charAt(0).toUpperCase() + kw2.slice(1)}\n\n💎 **Why Choose This Product?**\nThis ${productName} stands out from the competition with its ${adj2.toLowerCase()} features and exceptional value. Perfect for both beginners and professionals alike.\n\n📦 **Package Includes**\n• 1 x ${productName}\n• User manual\n• Warranty card\n\n${guarantee}\n\n🕐 **Business Hours**: 8am - 6pm (Monday-Saturday)\n📞 **WhatsApp**: +234 913 439 1505 for inquiries`,
+        
+        `🎯 **Product Description**\n\nIntroducing the ${adj1} ${productName} - your perfect solution for everyday needs. Built with ${kw1} and ${kw2}, this product delivers outstanding performance at ${priceNaira}.\n\n✅ **Benefits:**\n✓ ${adj1} quality guaranteed\n✓ ${adj2} functionality\n✓ Easy to use and maintain\n✓ ${kw1}\n✓ ${kw2}\n\n🏆 **Why Customers Love It**\nThousands of satisfied customers have chosen this ${productName} for its reliability and performance. Join them today!\n\n📞 **Questions?** Contact us on WhatsApp at +234 913 439 1505\n\n${guarantee}`,
+        
+        `📌 **Detailed Description**\n\n${verb} the difference with our ${adj1.toLowerCase()} ${productName}. Engineered with precision and care, this product features ${kw1} and ${kw2} to give you the best experience possible.\n\n⭐ **Highlights:**\n• Premium build quality\n• ${adj2} design\n• Affordable pricing at ${priceNaira}\n• Reliable performance\n• Customer-approved\n\n🛒 **Order Now**\nDon't miss out on this amazing deal. Order your ${productName} today and experience the difference!\n\n${guarantee}\n\n📧 **Email**: Greatwallinnovations@yahoo.com\n📞 **WhatsApp**: +234 913 439 1505`
+      ];
+      
+      fullDescInput.value = templates[Math.floor(Math.random() * templates.length)];
+      fullDescInput.placeholder = 'Full Description';
+      fullDescInput.classList.remove('generating');
+      showToast('✨ AI generated full description with formatting!');
+    }, 500);
+  }
+  
+  // ============================================
+  // PRODUCT MANAGEMENT
+  // ============================================
   
   let currentProducts = [];
   
@@ -429,7 +601,7 @@
       image: image,
       shortDesc: document.getElementById('productShortDesc').value || 'Quality product',
       fullDesc: document.getElementById('productFullDesc').value || document.getElementById('productShortDesc').value,
-      whatsappNumber: document.getElementById('whatsappNumber').value || "2347088028747"
+      whatsappNumber: "2349134391505"
     };
     
     currentProducts.push(newProduct);
@@ -506,6 +678,10 @@
     } catch(e) {}
   }
   
+  // ============================================
+  // ORDERS MANAGEMENT
+  // ============================================
+  
   function renderOrdersTable() {
     const orders = JSON.parse(localStorage.getItem('luxe_all_orders') || '[]');
     const tbody = document.getElementById('ordersTableBody');
@@ -554,6 +730,10 @@
     }
   }
   
+  // ============================================
+  // USERS MANAGEMENT
+  // ============================================
+  
   function renderUsersTable() {
     const users = JSON.parse(localStorage.getItem('luxe_users') || '[]');
     const tbody = document.getElementById('usersTableBody');
@@ -582,6 +762,10 @@
       showToast('🗑️ User deleted!');
     }
   }
+  
+  // ============================================
+  // BACKUP & SETTINGS
+  // ============================================
   
   function exportData() {
     const data = {
@@ -665,6 +849,14 @@
     }
   }
   
+  function updateEmail() {
+    const email = document.getElementById('adminEmail').value;
+    if (email) {
+      localStorage.setItem('luxe_email', email);
+      showToast('✅ Email address updated!');
+    }
+  }
+  
   function updateStoreName() {
     const name = document.getElementById('storeName').value;
     if (name) {
@@ -714,7 +906,8 @@
   });
   
   // Load settings
-  document.getElementById('whatsappNumber').value = localStorage.getItem('luxe_whatsapp') || "2347088028747";
+  document.getElementById('whatsappNumber').value = localStorage.getItem('luxe_whatsapp') || "2349134391505";
+  document.getElementById('adminEmail').value = localStorage.getItem('luxe_email') || "Greatwallinnovations@yahoo.com";
   document.getElementById('storeName').value = localStorage.getItem('luxe_store_name') || "LUXE Marketplace";
   
   // Initialize
