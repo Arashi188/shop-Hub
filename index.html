@@ -15,7 +15,7 @@
     <a href="index.html" class="logo">🛍️ LUXE</a>
     
     <ul class="nav-links desktop-nav">
-      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html" class="active">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
       <li><a href="collections.html">Collections</a></li>
       <li><a href="about.html">About</a></li>
@@ -50,6 +50,7 @@
   <div class="overlay" id="overlay"></div>
 </header>
 
+<!-- Hero Slider -->
 <section class="hero" id="hero-slider">
   <div class="slides-container" id="slidesContainer"></div>
   <button class="slider-arrow arrow-left" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
@@ -57,20 +58,11 @@
   <div class="dots" id="dotsContainer"></div>
 </section>
 
-<div class="category-pills">
-  <button class="category-pill active" data-category="all">✨ All Products</button>
-  <button class="category-pill" data-category="Electronics">📱 Electronics</button>
-  <button class="category-pill" data-category="Furniture">🛋️ Furniture</button>
-  <button class="category-pill" data-category="Beauty">💄 Beauty</button>
-  <button class="category-pill" data-category="Groceries">🥑 Groceries</button>
-  <button class="category-pill" data-category="Toys">🎮 Toys</button>
-  <button class="category-pill" data-category="Sports">⚽ Sports</button>
-  <button class="category-pill" data-category="Books">📚 Books</button>
-</div>
-
+<!-- Featured Products -->
 <h2 class="section-title fade-on-scroll">⭐ Featured Products</h2>
 <div class="products-grid" id="featuredGrid"></div>
 
+<!-- Features Section -->
 <div class="features-grid">
   <div class="feature-card fade-on-scroll">
     <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
@@ -94,6 +86,7 @@
   </div>
 </div>
 
+<!-- Newsletter -->
 <div class="newsletter">
   <h2>Join Our Newsletter</h2>
   <p>Get exclusive offers, new product alerts, and 10% off your first order!</p>
@@ -109,7 +102,9 @@
       <h3>🛍️ LUXE Marketplace</h3>
       <p>Your one-stop shop for everything</p>
       <p>📍 Lagos, Nigeria</p>
-      <p>📞 +234 708 802 8747</p>
+      <p>📞 +234 913 439 1505</p>
+      <p>✉️ Greatwallinnovations@yahoo.com</p>
+      <p>🕐 8am - 6pm (Mon-Sat)</p>
     </div>
     <div>
       <h4>Quick Links</h4>
@@ -120,16 +115,13 @@
     </div>
     <div>
       <h4>Categories</h4>
-      <p><a href="shop.html?cat=Electronics">Electronics</a></p>
-      <p><a href="shop.html?cat=Furniture">Furniture</a></p>
-      <p><a href="shop.html?cat=Beauty">Beauty</a></p>
-      <p><a href="shop.html?cat=Groceries">Groceries</a></p>
+      <p><a href="shop.html">All Products</a></p>
     </div>
     <div class="social-icons">
       <a href="#"><i class="fab fa-instagram"></i></a>
       <a href="#"><i class="fab fa-twitter"></i></a>
       <a href="#"><i class="fab fa-facebook"></i></a>
-      <a href="#"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://wa.me/2349134391505"><i class="fab fa-whatsapp"></i></a>
     </div>
   </div>
   <div style="text-align: center; margin-top: 2rem;">&copy; 2026 LUXE Marketplace</div>
@@ -184,6 +176,7 @@
     grid.innerHTML = featured.map(p => `<div class="product-card fade-on-scroll" onclick="location.href='product-detail.html?id=${p.id}'"><img class="product-img" src="${p.image}" loading="lazy"><div class="product-info"><div class="product-name">${p.name}</div><div class="product-price">₦${p.price.toLocaleString('en-NG')}</div><div class="product-desc">${p.shortDesc}</div><div class="quantity-wrapper"><label>Qty:</label><input type="number" min="1" value="1" class="qty-input" id="featured-qty-${p.id}" onclick="event.stopPropagation()"></div><button class="whatsapp-btn" onclick="event.stopPropagation(); buyOnWhatsApp(products.find(pr => pr.id === ${p.id}), parseInt(document.getElementById('featured-qty-${p.id}').value))"><i class="fab fa-whatsapp"></i> Buy on WhatsApp</button><button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${p.id}, parseInt(document.getElementById('featured-qty-${p.id}').value))"><i class="fas fa-cart-plus"></i> Add to Cart</button></div></div>`).join('');
   }
 
+  // Hamburger menu
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobileNav');
   const overlay = document.getElementById('overlay');
@@ -205,13 +198,6 @@
   hamburger?.addEventListener('click', toggleMenu);
   overlay?.addEventListener('click', closeMenu);
   document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', closeMenu));
-
-  document.querySelectorAll('.category-pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const category = btn.dataset.category;
-      window.location.href = category === 'all' ? 'shop.html' : `shop.html?cat=${category}`;
-    });
-  });
 
   let touchStartX = 0;
   const hero = document.querySelector('.hero');

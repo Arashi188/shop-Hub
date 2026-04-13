@@ -23,17 +23,14 @@
       padding: 2rem;
       max-width: 450px;
       width: 100%;
+      position: relative;
     }
     .auth-header {
       text-align: center;
       margin-bottom: 2rem;
     }
-    .auth-header h2 {
-      margin-bottom: 0.5rem;
-    }
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
+    .auth-header h2 { margin-bottom: 0.5rem; }
+    .form-group { margin-bottom: 1.5rem; }
     .form-group label {
       display: block;
       margin-bottom: 0.5rem;
@@ -61,9 +58,7 @@
       font-size: 1rem;
       cursor: pointer;
     }
-    .auth-btn:hover {
-      background: var(--primary-dark);
-    }
+    .auth-btn:hover { background: var(--primary-dark); }
     .auth-footer {
       text-align: center;
       margin-top: 1.5rem;
@@ -89,8 +84,32 @@
       margin-bottom: 1rem;
       display: none;
     }
-    .mode-switch {
+    /* HIDDEN ADMIN FIELD - Only appears after secret click pattern */
+    .admin-hidden-field {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+    }
+    .admin-hidden-field.show {
+      display: block;
+    }
+    .admin-badge {
+      background: #e74c3c;
+      color: white;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-left: 8px;
+    }
+    .logo-click-area {
+      cursor: pointer;
+      display: inline-block;
+    }
+    .info-note {
       text-align: center;
+      font-size: 0.7rem;
+      color: var(--text-light);
       margin-top: 1rem;
     }
   </style>
@@ -154,11 +173,23 @@
         <label>Confirm Password</label>
         <input type="password" id="confirmPassword" placeholder="••••••••">
       </div>
+      
+      <!-- HIDDEN ADMIN FIELD - Only appears after secret click pattern -->
+      <div id="adminHiddenField" class="admin-hidden-field">
+        <div class="form-group">
+          <label>🔐 Admin Secret Key <span class="admin-badge">Hidden Access</span></label>
+          <input type="password" id="adminSecretKey" placeholder="Enter admin secret key">
+        </div>
+      </div>
+      
       <button type="submit" class="auth-btn" id="submitBtn">Sign In</button>
     </form>
     
     <div class="auth-footer">
       <p id="toggleText">Don't have an account? <a href="#" id="toggleMode">Create Account</a></p>
+    </div>
+    <div class="info-note">
+      <i class="fas fa-shield-alt"></i> Secure login
     </div>
   </div>
 </div>
@@ -173,6 +204,67 @@
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
 <script>
+  // ============================================
+  // ADMIN CREDENTIALS (Email + Password)
+  // ============================================
+  // Admin can login using email and password - NO hidden clicks needed!
+  const ADMIN_EMAIL = "admin@luxe.com";
+  const ADMIN_PASSWORD = "admin123";
+  
+  // ============================================
+  // HIDDEN ADMIN ACCESS - Secret Click Pattern (BACKUP METHOD)
+  // ============================================
+  const SECRET_KEY = "LUXE_ADMIN_2025";
+  let clickCount = 0;
+  let clickTimer = null;
+  
+  const logoElement = document.querySelector('.logo');
+  const adminHiddenField = document.getElementById('adminHiddenField');
+  
+  function resetClickCount() {
+    clickCount = 0;
+  }
+  
+  function revealAdminField() {
+    if (adminHiddenField) {
+      adminHiddenField.classList.add('show');
+      const toast = document.createElement('div');
+      toast.textContent = '🔐 Backup admin mode activated. Enter secret key.';
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #e74c3c;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 40px;
+        z-index: 9999;
+        animation: fadeInOut 3s ease;
+        font-weight: 500;
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+  }
+  
+  if (logoElement) {
+    logoElement.style.cursor = 'pointer';
+    logoElement.addEventListener('click', function(e) {
+      e.preventDefault();
+      clickCount++;
+      if (clickTimer) clearTimeout(clickTimer);
+      clickTimer = setTimeout(resetClickCount, 1000);
+      if (clickCount === 5) {
+        revealAdminField();
+        resetClickCount();
+      }
+    });
+  }
+  
+  // ============================================
+  // LOGIN HANDLER (Supports 3 Methods)
+  // ============================================
+  
   let isLoginMode = true;
   
   function showError(message) {
@@ -195,8 +287,45 @@
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     
+    // ============================================
+    // METHOD 1: ADMIN EMAIL + PASSWORD LOGIN (EASIEST)
+    // ============================================
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      localStorage.setItem('luxe_admin_logged_in', 'true');
+      sessionStorage.setItem('luxe_admin_session', SECRET_KEY);
+      localStorage.setItem('luxe_current_user', JSON.stringify({ 
+        email: email, 
+        name: 'Administrator',
+        isAdmin: true,
+        loggedInAt: new Date().toISOString()
+      }));
+      showSuccess('🔐 Admin access granted! Redirecting to dashboard...');
+      setTimeout(() => {
+        window.location.href = 'admin.html?key=' + SECRET_KEY;
+      }, 1000);
+      return;
+    }
+    
+    // ============================================
+    // METHOD 2: HIDDEN ADMIN FIELD (BACKUP - Secret Key)
+    // ============================================
+    const adminFieldVisible = adminHiddenField.classList.contains('show');
+    const adminKey = document.getElementById('adminSecretKey')?.value;
+    
+    if (adminFieldVisible && adminKey === SECRET_KEY) {
+      localStorage.setItem('luxe_admin_logged_in', 'true');
+      sessionStorage.setItem('luxe_admin_session', SECRET_KEY);
+      showSuccess('🔐 Backup admin access granted! Redirecting to dashboard...');
+      setTimeout(() => {
+        window.location.href = 'admin.html?key=' + SECRET_KEY;
+      }, 1000);
+      return;
+    }
+    
+    // ============================================
+    // METHOD 3: REGULAR USER LOGIN
+    // ============================================
     if (isLoginMode) {
-      // LOGIN
       const users = JSON.parse(localStorage.getItem('luxe_users') || '[]');
       const user = users.find(u => u.email === email && u.password === password);
       
@@ -204,6 +333,7 @@
         localStorage.setItem('luxe_current_user', JSON.stringify({ 
           email: user.email, 
           name: user.name,
+          isAdmin: false,
           loggedInAt: new Date().toISOString()
         }));
         showSuccess('Login successful! Redirecting...');
@@ -214,7 +344,7 @@
         showError('Invalid email or password');
       }
     } else {
-      // SIGN UP
+      // REGULAR USER SIGN UP
       const name = document.getElementById('fullName').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
       
@@ -250,7 +380,7 @@
       
       users.push(newUser);
       localStorage.setItem('luxe_users', JSON.stringify(users));
-      localStorage.setItem('luxe_current_user', JSON.stringify({ email: email, name: name }));
+      localStorage.setItem('luxe_current_user', JSON.stringify({ email: email, name: name, isAdmin: false }));
       
       showSuccess('Account created successfully! Redirecting...');
       setTimeout(() => {
@@ -263,7 +393,6 @@
     isLoginMode = !isLoginMode;
     
     if (isLoginMode) {
-      // Switch to Login
       document.getElementById('formTitle').textContent = 'Welcome Back';
       document.getElementById('formSubtitle').textContent = 'Sign in to your LUXE account';
       document.getElementById('submitBtn').textContent = 'Sign In';
@@ -271,7 +400,6 @@
       document.getElementById('nameField').style.display = 'none';
       document.getElementById('confirmField').style.display = 'none';
     } else {
-      // Switch to Sign Up
       document.getElementById('formTitle').textContent = 'Create Account';
       document.getElementById('formSubtitle').textContent = 'Join the LUXE community';
       document.getElementById('submitBtn').textContent = 'Sign Up';
@@ -280,20 +408,17 @@
       document.getElementById('confirmField').style.display = 'block';
     }
     
-    // Re-attach event listener to the new toggle link
     document.getElementById('toggleMode').addEventListener('click', (e) => {
       e.preventDefault();
       toggleMode();
     });
     
-    // Clear form
     document.getElementById('email').value = '';
     document.getElementById('password').value = '';
     if (document.getElementById('fullName')) document.getElementById('fullName').value = '';
     if (document.getElementById('confirmPassword')) document.getElementById('confirmPassword').value = '';
   }
   
-  // Event listeners
   document.getElementById('authForm').addEventListener('submit', handleAuth);
   document.getElementById('toggleMode').addEventListener('click', (e) => {
     e.preventDefault();

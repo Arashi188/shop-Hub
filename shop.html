@@ -7,31 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
-  <style>
-    .filter-bar {
-      max-width: 1280px;
-      margin: 2rem auto 0;
-      padding: 0 2rem;
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .filter-btn {
-      padding: 8px 20px;
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      background: white;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-weight: 500;
-    }
-    .filter-btn.active, .filter-btn:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-  </style>
 </head>
 <body>
 
@@ -71,25 +46,31 @@
 
 <h2 class="section-title fade-on-scroll">All Products</h2>
 
-<div class="filter-bar">
-  <button class="filter-btn active" data-category="all">✨ All</button>
-  <button class="filter-btn" data-category="Electronics">📱 Electronics</button>
-  <button class="filter-btn" data-category="Furniture">🛋️ Furniture</button>
-  <button class="filter-btn" data-category="Beauty">💄 Beauty</button>
-  <button class="filter-btn" data-category="Groceries">🥑 Groceries</button>
-  <button class="filter-btn" data-category="Toys">🎮 Toys</button>
-  <button class="filter-btn" data-category="Sports">⚽ Sports</button>
-  <button class="filter-btn" data-category="Books">📚 Books</button>
-</div>
-
 <div class="products-grid" id="shopGrid"></div>
 
 <footer class="footer">
   <div class="footer-content">
-    <div><h3>🛍️ LUXE Marketplace</h3><p>Your one-stop shop for everything</p><p>📍 Lagos, Nigeria</p><p>📞 +234 708 802 8747</p></div>
-    <div><h4>Quick Links</h4><p><a href="shop.html">Shop All</a></p><p><a href="about.html">About Us</a></p><p><a href="contact.html">Contact</a></p><p><a href="faq.html">FAQ</a></p></div>
-    <div><h4>Categories</h4><p><a href="shop.html?cat=Electronics">Electronics</a></p><p><a href="shop.html?cat=Furniture">Furniture</a></p><p><a href="shop.html?cat=Beauty">Beauty</a></p><p><a href="shop.html?cat=Groceries">Groceries</a></p></div>
-    <div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div>
+    <div>
+      <h3>🛍️ LUXE Marketplace</h3>
+      <p>Your one-stop shop for everything</p>
+      <p>📍 Lagos, Nigeria</p>
+      <p>📞 +234 913 439 1505</p>
+      <p>✉️ Greatwallinnovations@yahoo.com</p>
+      <p>🕐 8am - 6pm (Mon-Sat)</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="shop.html">Shop All</a></p>
+      <p><a href="about.html">About Us</a></p>
+      <p><a href="contact.html">Contact</a></p>
+      <p><a href="faq.html">FAQ</a></p>
+    </div>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="https://wa.me/2349134391505"><i class="fab fa-whatsapp"></i></a>
+    </div>
   </div>
   <div style="text-align: center; margin-top: 2rem;">&copy; 2026 LUXE Marketplace</div>
 </footer>
@@ -97,20 +78,15 @@
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
 <script>
-  let currentCategory = 'all';
-
   function renderShop() {
     const grid = document.getElementById('shopGrid');
-    const filtered = currentCategory === 'all' 
-      ? products 
-      : products.filter(p => p.category === currentCategory);
     
-    if (filtered.length === 0) {
-      grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; padding: 3rem;"><p>📦 No products found in this category.</p><p style="color: var(--text-light); font-size: 0.9rem;">Check back later for new arrivals!</p></div>';
+    if (products.length === 0) {
+      grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; padding: 3rem;"><p>📦 No products available yet.</p><p style="color: var(--text-light); font-size: 0.9rem;">Check back later for new arrivals!</p></div>';
       return;
     }
     
-    grid.innerHTML = filtered.map(product => `
+    grid.innerHTML = products.map(product => `
       <div class="product-card fade-on-scroll">
         <img class="product-img" src="${product.image}" alt="${product.name}" loading="lazy">
         <div class="product-info">
@@ -132,6 +108,7 @@
     `).join('');
   }
 
+  // Hamburger menu
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobileNav');
   const overlay = document.getElementById('overlay');
@@ -139,15 +116,6 @@
   hamburger?.addEventListener('click', toggleMenu);
   overlay?.addEventListener('click', toggleMenu);
   document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', toggleMenu));
-
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentCategory = btn.dataset.category;
-      renderShop();
-    });
-  });
 
   renderShop();
   updateCartCount();
