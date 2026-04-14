@@ -129,6 +129,7 @@
   <div style="text-align: center; margin-top: 2rem;">&copy; 2026 LUXE Marketplace</div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/data.js"></script>
 <script src="js/script.js"></script>
 <script>
@@ -140,6 +141,16 @@
     const container = document.getElementById('slidesContainer');
     const dotsContainer = document.getElementById('dotsContainer');
     if (!container) return;
+    
+    // Clear container
+    container.innerHTML = '';
+    dotsContainer.innerHTML = '';
+    
+    // Check if slidesData exists
+    if (typeof slidesData === 'undefined') {
+      console.error('slidesData is not defined!');
+      return;
+    }
     
     slidesData.forEach((slide, idx) => {
       const slideDiv = document.createElement('div');
@@ -162,21 +173,54 @@
     document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
   }
 
-  function nextSlide() { currentSlide = (currentSlide + 1) % slidesArray.length; updateActiveSlide(); resetInterval(); }
-  function prevSlide() { currentSlide = (currentSlide - 1 + slidesArray.length) % slidesArray.length; updateActiveSlide(); resetInterval(); }
-  function goToSlide(index) { currentSlide = index; updateActiveSlide(); resetInterval(); }
-  function startAutoPlay() { if (slideInterval) clearInterval(slideInterval); slideInterval = setInterval(nextSlide, 5000); }
-  function resetInterval() { clearInterval(slideInterval); startAutoPlay(); }
+  function nextSlide() { 
+    currentSlide = (currentSlide + 1) % slidesArray.length; 
+    updateActiveSlide(); 
+    resetInterval(); 
+  }
+  
+  function prevSlide() { 
+    currentSlide = (currentSlide - 1 + slidesArray.length) % slidesArray.length; 
+    updateActiveSlide(); 
+    resetInterval(); 
+  }
+  
+  function goToSlide(index) { 
+    currentSlide = index; 
+    updateActiveSlide(); 
+    resetInterval(); 
+  }
+  
+  function startAutoPlay() { 
+    if (slideInterval) clearInterval(slideInterval); 
+    slideInterval = setInterval(nextSlide, 5000); 
+  }
+  
+  function resetInterval() { 
+    clearInterval(slideInterval); 
+    startAutoPlay(); 
+  }
 
   async function renderFeatured() {
     const grid = document.getElementById('featuredGrid');
-    await loadProductsFromSupabase();
+    await loadProducts();
     const featured = products.slice(0, 8);
     if (featured.length === 0) {
-      grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; padding: 3rem;"><p>🛍️ No products available yet!</p><p style="color: var(--text-light); font-size: 0.9rem;">New products coming soon. Please check back later.</p></div>';
+      grid.innerHTML = '<div style="text-align:center; padding:3rem;"><p>No products yet.</p></div>';
       return;
     }
-    grid.innerHTML = featured.map(p => `<div class="product-card fade-on-scroll" onclick="location.href='product-detail.html?id=${p.id}'"><img class="product-img" src="${p.image}" loading="lazy"><div class="product-info"><div class="product-name">${p.name}</div><div class="product-price">₦${p.price.toLocaleString('en-NG')}</div><div class="product-desc">${p.shortdesc || p.shortDesc}</div><div class="quantity-wrapper"><label>Qty:</label><input type="number" min="1" value="1" class="qty-input" id="featured-qty-${p.id}" onclick="event.stopPropagation()"></div><button class="whatsapp-btn" onclick="event.stopPropagation(); buyOnWhatsApp(products.find(pr => pr.id === ${p.id}), parseInt(document.getElementById('featured-qty-${p.id}').value))"><i class="fab fa-whatsapp"></i> Buy on WhatsApp</button><button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${p.id}, parseInt(document.getElementById('featured-qty-${p.id}').value))"><i class="fas fa-cart-plus"></i> Add to Cart</button></div></div>`).join('');
+    grid.innerHTML = featured.map(p => `
+      <div class="product-card" onclick="location.href='product-detail.html?id=${p.id}'">
+        <img class="product-img" src="${p.image}" loading="lazy">
+        <div class="product-info">
+          <div class="product-name">${p.name}</div>
+          <div class="product-price">₦${p.price.toLocaleString('en-NG')}</div>
+          <div class="product-desc">${p.shortdesc || p.shortDesc}</div>
+          <button class="whatsapp-btn" onclick="event.stopPropagation(); buyOnWhatsApp(p, 1)">Buy on WhatsApp</button>
+          <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${p.id}, 1)">Add to Cart</button>
+        </div>
+      </div>
+    `).join('');
   }
 
   // Hamburger menu
@@ -191,25 +235,24 @@
     document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
   }
   
-  function closeMenu() {
-    hamburger.classList.remove('active');
-    mobileNav.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-  
   hamburger?.addEventListener('click', toggleMenu);
-  overlay?.addEventListener('click', closeMenu);
-  document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', closeMenu));
+  overlay?.addEventListener('click', toggleMenu);
+  document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', toggleMenu));
 
+  // Touch support
   let touchStartX = 0;
   const hero = document.querySelector('.hero');
   hero?.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-  hero?.addEventListener('touchend', e => { const endX = e.changedTouches[0].screenX; if (endX < touchStartX - 50) nextSlide(); if (endX > touchStartX + 50) prevSlide(); });
+  hero?.addEventListener('touchend', e => { 
+    const endX = e.changedTouches[0].screenX; 
+    if (endX < touchStartX - 50) nextSlide(); 
+    if (endX > touchStartX + 50) prevSlide(); 
+  });
   
   document.getElementById('prevSlide')?.addEventListener('click', prevSlide);
   document.getElementById('nextSlide')?.addEventListener('click', nextSlide);
 
+  // Initialize
   buildSlides();
   renderFeatured();
   startAutoPlay();

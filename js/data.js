@@ -1,259 +1,14 @@
-// data.js - Supabase Database Integration
+// data.js - CLEAN WORKING VERSION
 
 // ============================================
-// SUPABASE CONFIGURATION
+// YOUR SUPABASE KEYS - PUT YOUR ACTUAL KEYS HERE
 // ============================================
-// !!! REPLACE WITH YOUR ACTUAL SUPABASE KEYS !!!
-const SUPABASE_URL = "https://negqfvyhxtpkunucszjd.supabase.co";      
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5lZ3FmdnloeHRwa3VudWNzempkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDYwNTksImV4cCI6MjA5MTY4MjA1OX0.p09XHGGVqBAKaKULaQSbb61-9Xfwo0f8f2XmU-cH0FI";
-
-// Initialize Supabase client
-let supabase = null;
-
-function initSupabase() {
-  if (typeof supabaseJs !== 'undefined') {
-    supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('✅ Supabase connected!');
-    return true;
-  }
-  console.log('⚠️ Supabase library not loaded yet');
-  return false;
-}
-
-// Load Supabase library dynamically
-function loadSupabase() {
-  return new Promise((resolve, reject) => {
-    if (typeof supabaseJs !== 'undefined') {
-      resolve();
-      return;
-    }
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-    script.onload = () => {
-      supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      console.log('✅ Supabase loaded and connected!');
-      resolve();
-    };
-    script.onerror = () => reject('Failed to load Supabase');
-    document.head.appendChild(script);
-  });
-}
-
-// Global products array
-let products = [];
+const LUXE_SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+const LUXE_SUPABASE_KEY = "YOUR_ANON_KEY_HERE";
 
 // ============================================
-// PRODUCT CRUD OPERATIONS
+// HERO SLIDER DATA
 // ============================================
-
-async function loadProductsFromSupabase() {
-  if (!supabase) await loadSupabase();
-  
-  try {
-    const { data, error } = await supabase
-      .from('products')
-      .select('*')
-      .order('id', { ascending: true });
-    
-    if (error) throw error;
-    
-    if (data && data.length > 0) {
-      products = data;
-      console.log(`✅ Loaded ${products.length} products from Supabase`);
-    } else {
-      products = [];
-      console.log('📦 No products found in database');
-    }
-    
-    localStorage.setItem('luxe_products_backup', JSON.stringify(products));
-    window.products = products;
-    
-    return products;
-  } catch (error) {
-    console.error('❌ Error loading products:', error);
-    const backup = localStorage.getItem('luxe_products_backup');
-    if (backup) {
-      products = JSON.parse(backup);
-      console.log('⚠️ Using localStorage backup');
-    }
-    return products;
-  }
-}
-
-async function addProductToSupabase(product) {
-  if (!supabase) await loadSupabase();
-  
-  try {
-    const { data, error } = await supabase
-      .from('products')
-      .insert([
-        {
-          name: product.name,
-          price: product.price,
-          category: product.category,
-          image: product.image,
-          shortdesc: product.shortDesc,
-          fulldesc: product.fullDesc,
-          whatsapp: product.whatsappNumber || "2349134391505"
-        }
-      ])
-      .select();
-    
-    if (error) throw error;
-    
-    if (data && data[0]) {
-      product.id = data[0].id;
-      products.push(product);
-      console.log('✅ Product added to Supabase:', product.name);
-    }
-    
-    localStorage.setItem('luxe_products_backup', JSON.stringify(products));
-    window.products = products;
-    
-    return product;
-  } catch (error) {
-    console.error('❌ Error adding product:', error);
-    const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-    product.id = newId;
-    products.push(product);
-    localStorage.setItem('luxe_products_backup', JSON.stringify(products));
-    return product;
-  }
-}
-
-async function updateProductInSupabase(productId, updates) {
-  if (!supabase) await loadSupabase();
-  
-  try {
-    const { error } = await supabase
-      .from('products')
-      .update(updates)
-      .eq('id', productId);
-    
-    if (error) throw error;
-    
-    const index = products.findIndex(p => p.id === productId);
-    if (index !== -1) {
-      products[index] = { ...products[index], ...updates };
-    }
-    
-    console.log('✅ Product updated in Supabase');
-    localStorage.setItem('luxe_products_backup', JSON.stringify(products));
-    window.products = products;
-    
-    return true;
-  } catch (error) {
-    console.error('❌ Error updating product:', error);
-    return false;
-  }
-}
-
-async function deleteProductFromSupabase(productId) {
-  if (!supabase) await loadSupabase();
-  
-  try {
-    const { error } = await supabase
-      .from('products')
-      .delete()
-      .eq('id', productId);
-    
-    if (error) throw error;
-    
-    products = products.filter(p => p.id !== productId);
-    console.log('✅ Product deleted from Supabase');
-    localStorage.setItem('luxe_products_backup', JSON.stringify(products));
-    window.products = products;
-    
-    return true;
-  } catch (error) {
-    console.error('❌ Error deleting product:', error);
-    return false;
-  }
-}
-
-// ============================================
-// CART FUNCTIONS
-// ============================================
-
-let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-
-function saveCart() {
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartCount();
-}
-
-function updateCartCount() {
-  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const cartCountElements = document.querySelectorAll('.cart-count');
-  cartCountElements.forEach(el => {
-    if (el) el.textContent = count;
-  });
-}
-
-function addToCart(productId, quantity = 1) {
-  const existing = cart.find(item => item.id === productId);
-  if (existing) {
-    existing.quantity += quantity;
-  } else {
-    const product = products.find(p => p.id === productId);
-    if (product) {
-      cart.push({ ...product, quantity });
-    }
-  }
-  saveCart();
-  showToast('✓ Added to cart!');
-}
-
-function removeFromCart(productId) {
-  cart = cart.filter(item => item.id !== productId);
-  saveCart();
-  showToast('🗑️ Removed from cart');
-}
-
-function updateQuantity(productId, quantity) {
-  const item = cart.find(item => item.id === productId);
-  if (item) {
-    item.quantity = Math.max(1, parseInt(quantity) || 1);
-    saveCart();
-  }
-}
-
-function getCartTotal() {
-  return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-}
-
-function showToast(message) {
-  const toast = document.createElement('div');
-  toast.textContent = message;
-  toast.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: var(--primary);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 40px;
-    z-index: 9999;
-    animation: fadeInOut 2s ease;
-    font-weight: 500;
-    box-shadow: var(--shadow-md);
-  `;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 2000);
-}
-
-function buyOnWhatsApp(product, quantity = 1) {
-  const message = `Hello! I'm interested in purchasing "${product.name}" at ₦${product.price.toLocaleString('en-NG')} each.\n\nQuantity: ${quantity}\nTotal: ₦${(product.price * quantity).toLocaleString('en-NG')}\n\nPlease confirm availability. Thank you!`;
-  const encodedMsg = encodeURIComponent(message);
-  const phone = product.whatsapp || "2349134391505";
-  const waLink = `https://wa.me/${phone}?text=${encodedMsg}`;
-  window.open(waLink, '_blank');
-}
-
-// ============================================
-// HERO SLIDER DATA (MUST BE HERE)
-// ============================================
-
 const slidesData = [
   {
     bg: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1600&auto=format",
@@ -275,12 +30,184 @@ const slidesData = [
   }
 ];
 
-// Make functions available globally
-window.products = products;
-window.loadProductsFromSupabase = loadProductsFromSupabase;
-window.addProductToSupabase = addProductToSupabase;
-window.updateProductInSupabase = updateProductInSupabase;
-window.deleteProductFromSupabase = deleteProductFromSupabase;
-window.slidesData = slidesData;
+// ============================================
+// SUPA BASE (No duplicate variables)
+// ============================================
+let luxeSupabase = null;
+let products = [];
 
-console.log('🛍️ LUXE Marketplace Ready!');
+function initLuxeSupabase() {
+  if (typeof supabaseJs !== 'undefined') {
+    luxeSupabase = supabaseJs.createClient(LUXE_SUPABASE_URL, LUXE_SUPABASE_KEY);
+    console.log('✅ Supabase connected');
+    return true;
+  }
+  return false;
+}
+
+function loadLuxeSupabase() {
+  return new Promise((resolve) => {
+    if (typeof supabaseJs !== 'undefined') {
+      luxeSupabase = supabaseJs.createClient(LUXE_SUPABASE_URL, LUXE_SUPABASE_KEY);
+      resolve();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    script.onload = () => {
+      luxeSupabase = supabaseJs.createClient(LUXE_SUPABASE_URL, LUXE_SUPABASE_KEY);
+      resolve();
+    };
+    document.head.appendChild(script);
+  });
+}
+
+// ============================================
+// PRODUCT FUNCTIONS
+// ============================================
+
+async function loadProducts() {
+  if (!luxeSupabase) await loadLuxeSupabase();
+  
+  try {
+    const { data, error } = await luxeSupabase
+      .from('products')
+      .select('*')
+      .order('id', { ascending: true });
+    
+    if (error) throw error;
+    
+    products = data || [];
+    window.products = products;
+    console.log('✅ Products loaded:', products.length);
+    return products;
+  } catch (error) {
+    console.error('❌ Error:', error);
+    products = [];
+    return products;
+  }
+}
+
+async function addProduct(product) {
+  if (!luxeSupabase) await loadLuxeSupabase();
+  
+  try {
+    const { data, error } = await luxeSupabase
+      .from('products')
+      .insert([{
+        name: product.name,
+        price: product.price,
+        category: product.category,
+        image: product.image,
+        shortdesc: product.shortDesc,
+        fulldesc: product.fullDesc,
+        whatsapp: product.whatsappNumber || "2349134391505"
+      }])
+      .select();
+    
+    if (error) throw error;
+    
+    if (data && data[0]) {
+      product.id = data[0].id;
+      products.push(product);
+      window.products = products;
+    }
+    return product;
+  } catch (error) {
+    console.error('❌ Error:', error);
+    return null;
+  }
+}
+
+async function deleteProduct(productId) {
+  if (!luxeSupabase) await loadLuxeSupabase();
+  
+  try {
+    await luxeSupabase.from('products').delete().eq('id', productId);
+    products = products.filter(p => p.id !== productId);
+    window.products = products;
+    return true;
+  } catch (error) {
+    console.error('❌ Error:', error);
+    return false;
+  }
+}
+
+// ============================================
+// CART FUNCTIONS
+// ============================================
+
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+function saveCart() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+}
+
+function updateCartCount() {
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.querySelectorAll('.cart-count').forEach(el => {
+    if (el) el.textContent = count;
+  });
+}
+
+function addToCart(productId, quantity = 1) {
+  const existing = cart.find(item => item.id === productId);
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    const product = products.find(p => p.id === productId);
+    if (product) cart.push({ ...product, quantity });
+  }
+  saveCart();
+  showToast('✓ Added to cart!');
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  saveCart();
+  showToast('🗑️ Removed');
+}
+
+function getCartTotal() {
+  return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+}
+
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #c07a5b;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 40px;
+    z-index: 9999;
+    animation: fadeInOut 2s ease;
+  `;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2000);
+}
+
+function buyOnWhatsApp(product, quantity = 1) {
+  const message = `Hello! I'm interested in "${product.name}" at ₦${product.price.toLocaleString('en-NG')} each. Quantity: ${quantity}. Total: ₦${(product.price * quantity).toLocaleString('en-NG')}`;
+  window.open(`https://wa.me/2349134391505?text=${encodeURIComponent(message)}`, '_blank');
+}
+
+// ============================================
+// MAKE AVAILABLE GLOBALLY
+// ============================================
+window.products = products;
+window.slidesData = slidesData;
+window.loadProducts = loadProducts;
+window.addProduct = addProduct;
+window.deleteProduct = deleteProduct;
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.updateCartCount = updateCartCount;
+window.getCartTotal = getCartTotal;
+window.buyOnWhatsApp = buyOnWhatsApp;
+
+console.log('✅ data.js loaded');
