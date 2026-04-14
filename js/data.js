@@ -1,33 +1,190 @@
-// data.js - Empty Product Database (Add your own products via Admin Dashboard)
+// data.js - Supabase Database Integration
+// ALL products now sync across ALL devices!
 
-// Default products - EMPTY ARRAY (no sample products)
-const defaultProducts = [];
+// ============================================
+// SUPABASE CONFIGURATION
+// ============================================
+// !!! REPLACE WITH YOUR ACTUAL SUPABASE KEYS !!!
+const SUPABASE_URL = "https://negqfvyhxtpkunucszjd.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5lZ3FmdnloeHRwa3VudWNzempkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDYwNTksImV4cCI6MjA5MTY4MjA1OX0.p09XHGGVqBAKaKULaQSbb61-9Xfwo0f8f2XmU-cH0FI";
 
-// Load products from localStorage or use empty array
+// Initialize Supabase client
+let supabase = null;
+
+function initSupabase() {
+  if (typeof supabaseJs !== 'undefined') {
+    supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase connected!');
+    return true;
+  }
+  console.log('⚠️ Supabase library not loaded yet');
+  return false;
+}
+
+// Load Supabase library dynamically
+function loadSupabase() {
+  return new Promise((resolve, reject) => {
+    if (typeof supabaseJs !== 'undefined') {
+      resolve();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    script.onload = () => {
+      supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      console.log('✅ Supabase loaded and connected!');
+      resolve();
+    };
+    script.onerror = () => reject('Failed to load Supabase');
+    document.head.appendChild(script);
+  });
+}
+
+// Global products array (will be loaded from Supabase)
 let products = [];
 
-function loadProducts() {
-  const savedProducts = localStorage.getItem('luxe_products');
-  if (savedProducts) {
-    products = JSON.parse(savedProducts);
-    console.log('✅ Products loaded from localStorage:', products.length);
-  } else {
-    products = [...defaultProducts];
-    saveProducts();
-    console.log('📦 No products found. Add your products via Admin Dashboard!');
+// ============================================
+// PRODUCT CRUD OPERATIONS (Supabase)
+// ============================================
+
+// Load all products from Supabase
+async function loadProductsFromSupabase() {
+  if (!supabase) await loadSupabase();
+  
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .order('id', { ascending: true });
+    
+    if (error) throw error;
+    
+    if (data && data.length > 0) {
+      products = data;
+      console.log(`✅ Loaded ${products.length} products from Supabase`);
+    } else {
+      products = [];
+      console.log('📦 No products found in database');
+    }
+    
+    // Save to localStorage as backup
+    localStorage.setItem('luxe_products_backup', JSON.stringify(products));
+    window.products = products;
+    
+    return products;
+  } catch (error) {
+    console.error('❌ Error loading products:', error);
+    // Fallback to localStorage backup
+    const backup = localStorage.getItem('luxe_products_backup');
+    if (backup) {
+      products = JSON.parse(backup);
+      console.log('⚠️ Using localStorage backup');
+    }
+    return products;
   }
 }
 
-function saveProducts() {
-  localStorage.setItem('luxe_products', JSON.stringify(products));
-  // Also update window.products for other scripts
-  window.products = products;
+// Add product to Supabase
+async function addProductToSupabase(product) {
+  if (!supabase) await loadSupabase();
+  
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .insert([
+        {
+          name: product.name,
+          price: product.price,
+          category: product.category,
+          image: product.image,
+          shortdesc: product.shortDesc,
+          fulldesc: product.fullDesc,
+          whatsapp: product.whatsappNumber || "2349134391505"
+        }
+      ])
+      .select();
+    
+    if (error) throw error;
+    
+    if (data && data[0]) {
+      product.id = data[0].id;
+      products.push(product);
+      console.log('✅ Product added to Supabase:', product.name);
+    }
+    
+    // Update backup
+    localStorage.setItem('luxe_products_backup', JSON.stringify(products));
+    window.products = products;
+    
+    return product;
+  } catch (error) {
+    console.error('❌ Error adding product:', error);
+    // Fallback to localStorage
+    const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+    product.id = newId;
+    products.push(product);
+    localStorage.setItem('luxe_products_backup', JSON.stringify(products));
+    return product;
+  }
 }
 
-// Initialize products
-loadProducts();
+// Update product in Supabase
+async function updateProductInSupabase(productId, updates) {
+  if (!supabase) await loadSupabase();
+  
+  try {
+    const { error } = await supabase
+      .from('products')
+      .update(updates)
+      .eq('id', productId);
+    
+    if (error) throw error;
+    
+    // Update local array
+    const index = products.findIndex(p => p.id === productId);
+    if (index !== -1) {
+      products[index] = { ...products[index], ...updates };
+    }
+    
+    console.log('✅ Product updated in Supabase');
+    localStorage.setItem('luxe_products_backup', JSON.stringify(products));
+    window.products = products;
+    
+    return true;
+  } catch (error) {
+    console.error('❌ Error updating product:', error);
+    return false;
+  }
+}
 
-// Cart functions
+// Delete product from Supabase
+async function deleteProductFromSupabase(productId) {
+  if (!supabase) await loadSupabase();
+  
+  try {
+    const { error } = await supabase
+      .from('products')
+      .delete()
+      .eq('id', productId);
+    
+    if (error) throw error;
+    
+    products = products.filter(p => p.id !== productId);
+    console.log('✅ Product deleted from Supabase');
+    localStorage.setItem('luxe_products_backup', JSON.stringify(products));
+    window.products = products;
+    
+    return true;
+  } catch (error) {
+    console.error('❌ Error deleting product:', error);
+    return false;
+  }
+}
+
+// ============================================
+// CART FUNCTIONS (Local only - per user)
+// ============================================
+
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
 function saveCart() {
@@ -90,7 +247,6 @@ function showToast(message) {
     animation: fadeInOut 2s ease;
     font-weight: 500;
     box-shadow: var(--shadow-md);
-    font-family: 'Inter', sans-serif;
   `;
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 2000);
@@ -100,7 +256,7 @@ function showToast(message) {
 function buyOnWhatsApp(product, quantity = 1) {
   const message = `Hello! I'm interested in purchasing "${product.name}" at ₦${product.price.toLocaleString('en-NG')} each.\n\nQuantity: ${quantity}\nTotal: ₦${(product.price * quantity).toLocaleString('en-NG')}\n\nPlease confirm availability and shipping cost. Thank you!`;
   const encodedMsg = encodeURIComponent(message);
-  const phone = product.whatsappNumber || "2347088028747";
+  const phone = product.whatsapp || "2349134391505";
   const waLink = `https://wa.me/${phone}?text=${encodedMsg}`;
   window.open(waLink, '_blank');
 }
@@ -127,10 +283,13 @@ const slidesData = [
   }
 ];
 
-// Make products available globally
+// Make functions available globally
 window.products = products;
-window.defaultProducts = defaultProducts;
-window.saveProducts = saveProducts;
-window.loadProducts = loadProducts;
+window.loadProductsFromSupabase = loadProductsFromSupabase;
+window.addProductToSupabase = addProductToSupabase;
+window.updateProductInSupabase = updateProductInSupabase;
+window.deleteProductFromSupabase = deleteProductFromSupabase;
+window.initSupabase = initSupabase;
+window.loadSupabase = loadSupabase;
 
-console.log('🛍️ LUXE Marketplace Ready! Add your products via Admin Dashboard.');
+console.log('🛍️ LUXE Marketplace - Supabase Ready!');

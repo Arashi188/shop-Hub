@@ -7,6 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Supabase Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -166,14 +168,15 @@
   function startAutoPlay() { if (slideInterval) clearInterval(slideInterval); slideInterval = setInterval(nextSlide, 5000); }
   function resetInterval() { clearInterval(slideInterval); startAutoPlay(); }
 
-  function renderFeatured() {
+  async function renderFeatured() {
     const grid = document.getElementById('featuredGrid');
+    await loadProductsFromSupabase();
     const featured = products.slice(0, 8);
     if (featured.length === 0) {
       grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; padding: 3rem;"><p>🛍️ No products available yet!</p><p style="color: var(--text-light); font-size: 0.9rem;">New products coming soon. Please check back later.</p></div>';
       return;
     }
-    grid.innerHTML = featured.map(p => `<div class="product-card fade-on-scroll" onclick="location.href='product-detail.html?id=${p.id}'"><img class="product-img" src="${p.image}" loading="lazy"><div class="product-info"><div class="product-name">${p.name}</div><div class="product-price">₦${p.price.toLocaleString('en-NG')}</div><div class="product-desc">${p.shortDesc}</div><div class="quantity-wrapper"><label>Qty:</label><input type="number" min="1" value="1" class="qty-input" id="featured-qty-${p.id}" onclick="event.stopPropagation()"></div><button class="whatsapp-btn" onclick="event.stopPropagation(); buyOnWhatsApp(products.find(pr => pr.id === ${p.id}), parseInt(document.getElementById('featured-qty-${p.id}').value))"><i class="fab fa-whatsapp"></i> Buy on WhatsApp</button><button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${p.id}, parseInt(document.getElementById('featured-qty-${p.id}').value))"><i class="fas fa-cart-plus"></i> Add to Cart</button></div></div>`).join('');
+    grid.innerHTML = featured.map(p => `<div class="product-card fade-on-scroll" onclick="location.href='product-detail.html?id=${p.id}'"><img class="product-img" src="${p.image}" loading="lazy"><div class="product-info"><div class="product-name">${p.name}</div><div class="product-price">₦${p.price.toLocaleString('en-NG')}</div><div class="product-desc">${p.shortdesc || p.shortDesc}</div><div class="quantity-wrapper"><label>Qty:</label><input type="number" min="1" value="1" class="qty-input" id="featured-qty-${p.id}" onclick="event.stopPropagation()"></div><button class="whatsapp-btn" onclick="event.stopPropagation(); buyOnWhatsApp(products.find(pr => pr.id === ${p.id}), parseInt(document.getElementById('featured-qty-${p.id}').value))"><i class="fab fa-whatsapp"></i> Buy on WhatsApp</button><button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${p.id}, parseInt(document.getElementById('featured-qty-${p.id}').value))"><i class="fas fa-cart-plus"></i> Add to Cart</button></div></div>`).join('');
   }
 
   // Hamburger menu

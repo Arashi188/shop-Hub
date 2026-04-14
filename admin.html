@@ -7,6 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Supabase Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     .admin-container {
       max-width: 1400px;
@@ -521,19 +523,18 @@
   }
   
   // ============================================
-  // PRODUCT MANAGEMENT
+  // PRODUCT MANAGEMENT (Supabase)
   // ============================================
   
   let currentProducts = [];
   
-  function loadCurrentProducts() {
-    const saved = localStorage.getItem('luxe_products');
-    if (saved) {
-      currentProducts = JSON.parse(saved);
-    } else {
-      currentProducts = [];
-    }
-    window.products = currentProducts;
+  async function loadCurrentProducts() {
+    showToast('🔄 Loading products from database...');
+    await loadProductsFromSupabase();
+    currentProducts = [...products];
+    renderProductsTable();
+    updateStats();
+    showToast(`✅ Loaded ${currentProducts.length} products`);
   }
   
   function updateStats() {
@@ -583,7 +584,7 @@
     `).join('');
   }
   
-  function addProduct() {
+  async function addProduct() {
     const name = document.getElementById('productName').value;
     const price = parseFloat(document.getElementById('productPrice').value);
     const image = document.getElementById('productImage').value;
@@ -592,9 +593,7 @@
     if (!price || isNaN(price)) { alert('Please enter valid price in Naira'); return; }
     if (!image) { alert('Please upload a product image'); return; }
     
-    const newId = currentProducts.length > 0 ? Math.max(...currentProducts.map(p => p.id)) + 1 : 1;
     const newProduct = {
-      id: newId,
       name: name,
       price: price,
       category: document.getElementById('productCategory').value,
@@ -604,25 +603,29 @@
       whatsappNumber: "2349134391505"
     };
     
-    currentProducts.push(newProduct);
-    saveProductsToLocal();
-    renderProductsTable();
-    updateStats();
+    showToast('💾 Saving product to database...');
+    const saved = await addProductToSupabase(newProduct);
     
-    // Clear form
-    document.getElementById('productName').value = '';
-    document.getElementById('productPrice').value = '';
-    document.getElementById('productShortDesc').value = '';
-    document.getElementById('productFullDesc').value = '';
-    document.getElementById('productImage').value = '';
-    document.getElementById('imagePreview').style.display = 'none';
-    document.querySelector('.image-upload-area p').innerHTML = 'Click to upload product image';
-    document.getElementById('productImageInput').value = '';
-    
-    showToast('✅ Product added successfully!');
+    if (saved) {
+      await loadCurrentProducts();
+      
+      // Clear form
+      document.getElementById('productName').value = '';
+      document.getElementById('productPrice').value = '';
+      document.getElementById('productShortDesc').value = '';
+      document.getElementById('productFullDesc').value = '';
+      document.getElementById('productImage').value = '';
+      document.getElementById('imagePreview').style.display = 'none';
+      document.querySelector('.image-upload-area p').innerHTML = 'Click to upload product image';
+      document.getElementById('productImageInput').value = '';
+      
+      showToast('✅ Product added to database! Visible on all devices.');
+    } else {
+      showToast('❌ Error saving product. Check console.');
+    }
   }
   
-  function editProduct(id) {
+  async function editProduct(id) {
     const p = currentProducts.find(p => p.id === id);
     if (!p) return;
     
@@ -630,52 +633,48 @@
     const newPrice = prompt('Edit price in Naira:', p.price);
     const newCategory = prompt('Edit category:', p.category);
     
-    if (newName) p.name = newName;
-    if (newPrice) p.price = parseFloat(newPrice);
-    if (newCategory) p.category = newCategory;
+    const updates = {};
+    if (newName) updates.name = newName;
+    if (newPrice) updates.price = parseFloat(newPrice);
+    if (newCategory) updates.category = newCategory;
     
     const changeImage = confirm('Change product image? Click OK to upload new image');
     if (changeImage) {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = function(e) {
+      input.onchange = async function(e) {
         const file = e.target.files[0];
         if (file) {
           const reader = new FileReader();
-          reader.onload = function(ev) {
-            p.image = ev.target.result;
-            saveProductsToLocal();
-            renderProductsTable();
-            showToast('✅ Product updated!');
+          reader.onload = async function(ev) {
+            updates.image = ev.target.result;
+            showToast('💾 Saving changes to database...');
+            await updateProductInSupabase(id, updates);
+            await loadCurrentProducts();
+            showToast('✅ Product updated in database!');
           };
           reader.readAsDataURL(file);
         }
       };
       input.click();
     } else {
-      saveProductsToLocal();
-      renderProductsTable();
-      showToast('✅ Product updated!');
+      if (Object.keys(updates).length > 0) {
+        showToast('💾 Saving changes to database...');
+        await updateProductInSupabase(id, updates);
+        await loadCurrentProducts();
+        showToast('✅ Product updated in database!');
+      }
     }
   }
   
-  function deleteProduct(id) {
+  async function deleteProduct(id) {
     if (confirm('Are you sure you want to delete this product?')) {
-      currentProducts = currentProducts.filter(p => p.id !== id);
-      saveProductsToLocal();
-      renderProductsTable();
-      updateStats();
-      showToast('🗑️ Product deleted!');
+      showToast('🗑️ Deleting product from database...');
+      await deleteProductFromSupabase(id);
+      await loadCurrentProducts();
+      showToast('✅ Product deleted from database!');
     }
-  }
-  
-  function saveProductsToLocal() {
-    localStorage.setItem('luxe_products', JSON.stringify(currentProducts));
-    window.products = currentProducts;
-    try {
-      localStorage.setItem('luxe_admin_products', JSON.stringify(currentProducts));
-    } catch(e) {}
   }
   
   // ============================================
@@ -800,13 +799,19 @@
     const file = input.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = async function(e) {
       try {
         const data = JSON.parse(e.target.result);
-        if (data.products) { currentProducts = data.products; saveProductsToLocal(); renderProductsTable(); }
+        if (data.products && data.products.length > 0) {
+          showToast('💾 Importing products to database...');
+          for (const product of data.products) {
+            await addProductToSupabase(product);
+          }
+          await loadCurrentProducts();
+        }
         if (data.orders) localStorage.setItem('luxe_all_orders', JSON.stringify(data.orders));
         if (data.users) localStorage.setItem('luxe_users', JSON.stringify(data.users));
-        showToast('✅ Data imported successfully!');
+        showToast('✅ Data imported to database!');
         updateStats();
         renderOrdersTable();
         renderUsersTable();
@@ -816,18 +821,19 @@
     input.value = '';
   }
   
-  function resetAllData() {
-    if (confirm('⚠️ WARNING: This will delete ALL products, orders, and users. Continue?')) {
+  async function resetAllData() {
+    if (confirm('⚠️ WARNING: This will delete ALL products from Supabase! Continue?')) {
       if (confirm('ARE YOU ABSOLUTELY SURE? This cannot be undone!')) {
-        currentProducts = [];
-        saveProductsToLocal();
+        showToast('🗑️ Deleting all products from database...');
+        for (const product of currentProducts) {
+          await deleteProductFromSupabase(product.id);
+        }
+        await loadCurrentProducts();
         localStorage.removeItem('luxe_all_orders');
         localStorage.removeItem('luxe_users');
         localStorage.removeItem('cart');
-        renderProductsTable();
         renderOrdersTable();
         renderUsersTable();
-        updateStats();
         showToast('🔄 All data has been reset!');
       }
     }
@@ -910,10 +916,8 @@
   document.getElementById('adminEmail').value = localStorage.getItem('luxe_email') || "Greatwallinnovations@yahoo.com";
   document.getElementById('storeName').value = localStorage.getItem('luxe_store_name') || "LUXE Marketplace";
   
-  // Initialize
+  // Initialize - Load products from Supabase
   loadCurrentProducts();
-  renderProductsTable();
-  updateStats();
 </script>
 </body>
 </html>
