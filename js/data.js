@@ -1,12 +1,11 @@
 // data.js - Supabase Database Integration
-// ALL products now sync across ALL devices!
 
 // ============================================
 // SUPABASE CONFIGURATION
 // ============================================
 // !!! REPLACE WITH YOUR ACTUAL SUPABASE KEYS !!!
-const SUPABASE_URL = "https://negqfvyhxtpkunucszjd.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5lZ3FmdnloeHRwa3VudWNzempkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDYwNTksImV4cCI6MjA5MTY4MjA1OX0.p09XHGGVqBAKaKULaQSbb61-9Xfwo0f8f2XmU-cH0FI";
+const SUPABASE_URL = "YOUR_SUPABASE_URL_HERE";      
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY_HERE";
 
 // Initialize Supabase client
 let supabase = null;
@@ -40,14 +39,13 @@ function loadSupabase() {
   });
 }
 
-// Global products array (will be loaded from Supabase)
+// Global products array
 let products = [];
 
 // ============================================
-// PRODUCT CRUD OPERATIONS (Supabase)
+// PRODUCT CRUD OPERATIONS
 // ============================================
 
-// Load all products from Supabase
 async function loadProductsFromSupabase() {
   if (!supabase) await loadSupabase();
   
@@ -67,14 +65,12 @@ async function loadProductsFromSupabase() {
       console.log('📦 No products found in database');
     }
     
-    // Save to localStorage as backup
     localStorage.setItem('luxe_products_backup', JSON.stringify(products));
     window.products = products;
     
     return products;
   } catch (error) {
     console.error('❌ Error loading products:', error);
-    // Fallback to localStorage backup
     const backup = localStorage.getItem('luxe_products_backup');
     if (backup) {
       products = JSON.parse(backup);
@@ -84,7 +80,6 @@ async function loadProductsFromSupabase() {
   }
 }
 
-// Add product to Supabase
 async function addProductToSupabase(product) {
   if (!supabase) await loadSupabase();
   
@@ -112,14 +107,12 @@ async function addProductToSupabase(product) {
       console.log('✅ Product added to Supabase:', product.name);
     }
     
-    // Update backup
     localStorage.setItem('luxe_products_backup', JSON.stringify(products));
     window.products = products;
     
     return product;
   } catch (error) {
     console.error('❌ Error adding product:', error);
-    // Fallback to localStorage
     const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
     product.id = newId;
     products.push(product);
@@ -128,7 +121,6 @@ async function addProductToSupabase(product) {
   }
 }
 
-// Update product in Supabase
 async function updateProductInSupabase(productId, updates) {
   if (!supabase) await loadSupabase();
   
@@ -140,7 +132,6 @@ async function updateProductInSupabase(productId, updates) {
     
     if (error) throw error;
     
-    // Update local array
     const index = products.findIndex(p => p.id === productId);
     if (index !== -1) {
       products[index] = { ...products[index], ...updates };
@@ -157,7 +148,6 @@ async function updateProductInSupabase(productId, updates) {
   }
 }
 
-// Delete product from Supabase
 async function deleteProductFromSupabase(productId) {
   if (!supabase) await loadSupabase();
   
@@ -182,7 +172,7 @@ async function deleteProductFromSupabase(productId) {
 }
 
 // ============================================
-// CART FUNCTIONS (Local only - per user)
+// CART FUNCTIONS
 // ============================================
 
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -252,16 +242,18 @@ function showToast(message) {
   setTimeout(() => toast.remove(), 2000);
 }
 
-// WhatsApp handler
 function buyOnWhatsApp(product, quantity = 1) {
-  const message = `Hello! I'm interested in purchasing "${product.name}" at ₦${product.price.toLocaleString('en-NG')} each.\n\nQuantity: ${quantity}\nTotal: ₦${(product.price * quantity).toLocaleString('en-NG')}\n\nPlease confirm availability and shipping cost. Thank you!`;
+  const message = `Hello! I'm interested in purchasing "${product.name}" at ₦${product.price.toLocaleString('en-NG')} each.\n\nQuantity: ${quantity}\nTotal: ₦${(product.price * quantity).toLocaleString('en-NG')}\n\nPlease confirm availability. Thank you!`;
   const encodedMsg = encodeURIComponent(message);
   const phone = product.whatsapp || "2349134391505";
   const waLink = `https://wa.me/${phone}?text=${encodedMsg}`;
   window.open(waLink, '_blank');
 }
 
-// Hero Slider Data
+// ============================================
+// HERO SLIDER DATA (MUST BE HERE)
+// ============================================
+
 const slidesData = [
   {
     bg: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1600&auto=format",
@@ -289,7 +281,6 @@ window.loadProductsFromSupabase = loadProductsFromSupabase;
 window.addProductToSupabase = addProductToSupabase;
 window.updateProductInSupabase = updateProductInSupabase;
 window.deleteProductFromSupabase = deleteProductFromSupabase;
-window.initSupabase = initSupabase;
-window.loadSupabase = loadSupabase;
+window.slidesData = slidesData;
 
-console.log('🛍️ LUXE Marketplace - Supabase Ready!');
+console.log('🛍️ LUXE Marketplace Ready!');
