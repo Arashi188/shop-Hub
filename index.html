@@ -2,27 +2,404 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUXE | Premium Marketplace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>LUXE | Premium Marketplace - Shop Everything in Nigeria</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    .hero { position: relative; width: 100%; height: 60vh; min-height: 400px; overflow: hidden; }
-    @media (min-width: 768px) { .hero { height: 75vh; } }
-    .slides-container { position: relative; width: 100%; height: 100%; }
-    .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; visibility: hidden; transition: opacity 0.8s ease; background-size: cover; background-position: center; display: flex; align-items: center; }
-    .slide.active { opacity: 1; visibility: visible; z-index: 2; }
-    .slide-content { max-width: 1280px; margin-left: 5%; padding: 1.5rem; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); border-radius: 20px; color: white; }
-    @media (min-width: 768px) { .slide-content { margin-left: 8%; padding: 2rem; } }
-    .slide-content h2 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-    @media (min-width: 768px) { .slide-content h2 { font-size: 3rem; } }
-    .cta-button { background: #c07a5b; border: none; padding: 10px 24px; border-radius: 40px; font-weight: 600; color: white; cursor: pointer; text-decoration: none; display: inline-block; }
-    .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; border: none; }
-    .arrow-left { left: 10px; } .arrow-right { right: 10px; }
-    .dots { position: absolute; bottom: 15px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; z-index: 20; }
-    .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.6); border-radius: 50%; cursor: pointer; }
-    .dot.active { background: #c07a5b; width: 20px; border-radius: 20px; }
+    /* Hero Slider Styles */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 60vh;
+      min-height: 400px;
+      overflow: hidden;
+    }
+    @media (min-width: 768px) {
+      .hero { height: 75vh; min-height: 520px; }
+    }
+    .slides-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      z-index: 2;
+    }
+    .slide-content {
+      max-width: 1280px;
+      margin-left: 5%;
+      margin-right: 5%;
+      padding: 1.5rem;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      border-radius: 20px;
+      color: white;
+      animation: fadeUp 0.9s ease-out;
+    }
+    @media (min-width: 768px) {
+      .slide-content {
+        margin-left: 8%;
+        padding: 2rem;
+        max-width: 80%;
+      }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-content h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    @media (min-width: 768px) {
+      .slide-content h2 { font-size: 3rem; margin-bottom: 1rem; }
+    }
+    .slide-content p {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      max-width: 500px;
+    }
+    @media (min-width: 768px) {
+      .slide-content p { font-size: 1.2rem; margin-bottom: 1.5rem; }
+    }
+    .cta-button {
+      background: #c07a5b;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    @media (min-width: 768px) {
+      .cta-button { padding: 12px 32px; font-size: 1rem; }
+    }
+    .cta-button:hover {
+      background: #a25f42;
+      transform: scale(1.03);
+    }
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(4px);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      font-size: 1rem;
+      color: #2c2c36;
+      transition: 0.2s;
+      border: none;
+    }
+    @media (min-width: 768px) {
+      .slider-arrow { width: 44px; height: 44px; font-size: 1.5rem; }
+    }
+    .slider-arrow:hover {
+      background: white;
+      transform: translateY(-50%) scale(1.05);
+    }
+    .arrow-left { left: 10px; }
+    .arrow-right { right: 10px; }
+    @media (min-width: 768px) {
+      .arrow-left { left: 20px; }
+      .arrow-right { right: 20px; }
+    }
+    .dots {
+      position: absolute;
+      bottom: 15px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      z-index: 20;
+    }
+    @media (min-width: 768px) {
+      .dots { bottom: 20px; gap: 14px; }
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .dot.active {
+      background: #c07a5b;
+      width: 20px;
+      border-radius: 20px;
+    }
+    @media (min-width: 768px) {
+      .dot { width: 10px; height: 10px; }
+      .dot.active { width: 28px; }
+    }
+    /* Products Grid */
+    .products-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 480px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 768px) {
+      .products-grid { padding: 2rem; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    }
+    @media (min-width: 1024px) {
+      .products-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .product-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: all 0.35s ease;
+      cursor: pointer;
+    }
+    .product-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    }
+    .product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    @media (min-width: 768px) {
+      .product-img { height: 240px; }
+    }
+    .product-card:hover .product-img {
+      transform: scale(1.02);
+    }
+    .product-info {
+      padding: 1rem;
+    }
+    @media (min-width: 768px) {
+      .product-info { padding: 1.5rem; }
+    }
+    .product-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    @media (min-width: 768px) {
+      .product-name { font-size: 1.2rem; }
+    }
+    .product-price {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #c07a5b;
+      margin: 0.5rem 0;
+    }
+    @media (min-width: 768px) {
+      .product-price { font-size: 1.3rem; }
+    }
+    .product-desc {
+      font-size: 0.75rem;
+      color: #5a5a6e;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    @media (min-width: 768px) {
+      .product-desc { font-size: 0.85rem; }
+    }
+    .whatsapp-btn, .add-to-cart-btn {
+      width: 100%;
+      border: none;
+      padding: 10px;
+      border-radius: 40px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.8rem;
+    }
+    @media (min-width: 768px) {
+      .whatsapp-btn, .add-to-cart-btn { padding: 12px; font-size: 0.9rem; }
+    }
+    .whatsapp-btn {
+      background: #25D366;
+      color: white;
+    }
+    .whatsapp-btn:hover {
+      background: #1da851;
+      transform: scale(0.98);
+    }
+    .add-to-cart-btn {
+      background: #2c2c36;
+      color: white;
+      margin-top: 8px;
+    }
+    .add-to-cart-btn:hover {
+      background: #1a1a24;
+      transform: scale(0.98);
+    }
+    .quantity-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .qty-input {
+      width: 55px;
+      padding: 6px;
+      border-radius: 40px;
+      border: 1px solid #eaeaea;
+      text-align: center;
+    }
+    /* Features Section */
+    .features-grid {
+      max-width: 1280px;
+      margin: 2rem auto;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 480px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 768px) {
+      .features-grid { margin: 4rem auto; padding: 2rem; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    }
+    .feature-card {
+      text-align: center;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 20px;
+      transition: all 0.3s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .feature-icon {
+      font-size: 2rem;
+      color: #c07a5b;
+      margin-bottom: 0.75rem;
+    }
+    /* Newsletter */
+    .newsletter {
+      background: linear-gradient(135deg, #2c2c36, #1a1a2e);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+    @media (min-width: 768px) {
+      .newsletter { padding: 4rem 2rem; margin: 4rem 0; }
+    }
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      max-width: 500px;
+      margin: 1.5rem auto 0;
+      gap: 0.75rem;
+    }
+    @media (min-width: 768px) {
+      .newsletter-form { flex-direction: row; margin-top: 2rem; gap: 1rem; }
+    }
+    .newsletter-form input {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 40px;
+      font-size: 0.9rem;
+    }
+    .newsletter-form button {
+      padding: 12px 20px;
+      background: #c07a5b;
+      color: white;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    /* Footer */
+    .footer {
+      background: #2c2c36;
+      color: #efefef;
+      margin-top: 2rem;
+      padding: 1.5rem 1rem;
+    }
+    @media (min-width: 768px) {
+      .footer { margin-top: 4rem; padding: 2.5rem 2rem; }
+    }
+    .footer-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .footer-content { flex-direction: row; justify-content: space-between; gap: 2rem; }
+    }
+    .footer a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    .footer a:hover { color: #c07a5b; }
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      font-size: 1.3rem;
+    }
+    .section-title {
+      text-align: center;
+      margin: 2rem 0 1rem;
+      color: #2c2c36;
+    }
+    @media (min-width: 768px) {
+      .section-title { margin: 3rem 0 1rem; }
+    }
+    .fade-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -33,19 +410,38 @@
     <ul class="nav-links desktop-nav">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
+      <li><a href="collections.html">Collections</a></li>
       <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
       <li><a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i> <span class="cart-count">0</span></a></li>
     </ul>
-    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
 </header>
 
 <div class="mobile-nav" id="mobileNav">
-  <ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="cart.html">Cart</a></li><li><a href="login.html">Sign In</a></li></ul>
+  <ul>
+    <li><a href="index.html">🏠 Home</a></li>
+    <li><a href="shop.html">🛍️ Shop</a></li>
+    <li><a href="collections.html">📁 Collections</a></li>
+    <li><a href="about.html">📖 About</a></li>
+    <li><a href="blog.html">📝 Blog</a></li>
+    <li><a href="contact.html">📞 Contact</a></li>
+    <li><a href="wishlist.html">❤️ Wishlist</a></li>
+    <li><a href="cart.html">🛒 Cart</a></li>
+    <li><a href="account.html">👤 My Account</a></li>
+    <li><a href="login.html">🔑 Sign In</a></li>
+  </ul>
 </div>
 <div class="overlay" id="overlay"></div>
 
+<!-- Hero Slider -->
 <section class="hero" id="hero-slider">
   <div class="slides-container" id="slidesContainer"></div>
   <button class="slider-arrow arrow-left" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
@@ -53,37 +449,165 @@
   <div class="dots" id="dotsContainer"></div>
 </section>
 
-<h2 class="section-title">⭐ Featured Products</h2>
+<!-- Category Pills -->
+<div class="category-pills">
+  <button class="category-pill active" data-category="all">✨ All Products</button>
+  <button class="category-pill" data-category="Electronics">📱 Electronics</button>
+  <button class="category-pill" data-category="Furniture">🛋️ Furniture</button>
+  <button class="category-pill" data-category="Beauty">💄 Beauty</button>
+  <button class="category-pill" data-category="Groceries">🥑 Groceries</button>
+  <button class="category-pill" data-category="Toys">🎮 Toys</button>
+  <button class="category-pill" data-category="Sports">⚽ Sports</button>
+  <button class="category-pill" data-category="Books">📚 Books</button>
+</div>
+
+<!-- Featured Products -->
+<h2 class="section-title fade-on-scroll">⭐ Featured Products</h2>
 <div class="products-grid" id="featuredGrid"></div>
 
+<!-- Features Section -->
+<div class="features-grid">
+  <div class="feature-card fade-on-scroll">
+    <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
+    <h3>Free Shipping</h3>
+    <p>On orders over ₦75,000</p>
+  </div>
+  <div class="feature-card fade-on-scroll">
+    <div class="feature-icon"><i class="fas fa-rotate-left"></i></div>
+    <h3>30-Day Returns</h3>
+    <p>Hassle-free returns</p>
+  </div>
+  <div class="feature-card fade-on-scroll">
+    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+    <h3>Secure Payment</h3>
+    <p>100% secure transactions</p>
+  </div>
+  <div class="feature-card fade-on-scroll">
+    <div class="feature-icon"><i class="fas fa-headset"></i></div>
+    <h3>24/7 Support</h3>
+    <p>Dedicated customer service</p>
+  </div>
+</div>
+
+<!-- Newsletter -->
+<div class="newsletter">
+  <h2>Join Our Newsletter</h2>
+  <p>Get exclusive offers, new product alerts, and 10% off your first order!</p>
+  <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing! Check your email for 10% off.');">
+    <input type="email" placeholder="Enter your email" required>
+    <button type="submit">Subscribe →</button>
+  </form>
+</div>
+
+<!-- Shop by Category -->
+<h2 class="section-title fade-on-scroll">📂 Shop by Category</h2>
+<div class="products-grid" id="categoryGrid"></div>
+
 <footer class="footer">
-  <div class="footer-content"><div><h3>🛍️ LUXE Marketplace</h3><p>📍 Lagos, Nigeria</p><p>📞 +234 913 439 1505</p></div></div>
+  <div class="footer-content">
+    <div>
+      <h3>🛍️ LUXE Marketplace</h3>
+      <p>Your one-stop shop for everything</p>
+      <p>📍 Lagos, Nigeria</p>
+      <p>📞 +234 913 439 1505</p>
+      <p>✉️ Greatwallinnovations@yahoo.com</p>
+      <p>🕐 8am - 6pm (Mon-Sat)</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="shop.html">Shop All</a></p>
+      <p><a href="about.html">About Us</a></p>
+      <p><a href="contact.html">Contact</a></p>
+      <p><a href="faq.html">FAQ</a></p>
+    </div>
+    <div>
+      <h4>Categories</h4>
+      <p><a href="shop.html?cat=Electronics">Electronics</a></p>
+      <p><a href="shop.html?cat=Furniture">Furniture</a></p>
+      <p><a href="shop.html?cat=Beauty">Beauty</a></p>
+      <p><a href="shop.html?cat=Groceries">Groceries</a></p>
+    </div>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="https://wa.me/2349134391505"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+    <p>&copy; 2026 LUXE Marketplace — All rights reserved.</p>
+  </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// Hero Slider Data
+// ============================================
+// SUPABASE CONFIGURATION - PUT YOUR KEYS HERE
+// ============================================
+const SUPABASE_URL = "https://negqfvyhxtpkunucszjd.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_fu0RDcDsBPp7STVvKGp3GA_HfGe51kO";
+
+// ============================================
+// HERO SLIDER DATA
+// ============================================
 const slidesData = [
-  { bg: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1600&auto=format", headline: "Welcome to LUXE", subtext: "Your premier marketplace", cta: "Shop Now" },
-  { bg: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600&auto=format", headline: "New Arrivals", subtext: "Discover our latest collection", cta: "Shop Now" },
-  { bg: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&auto=format", headline: "Free Shipping", subtext: "On orders over ₦75,000", cta: "Shop Now" }
+  {
+    bg: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1600&auto=format",
+    headline: "Welcome to LUXE",
+    subtext: "Your premier marketplace for quality products",
+    cta: "Shop Now"
+  },
+  {
+    bg: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600&auto=format",
+    headline: "New Arrivals",
+    subtext: "Discover our latest collection",
+    cta: "Shop Now"
+  },
+  {
+    bg: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&auto=format",
+    headline: "Free Shipping",
+    subtext: "On orders over ₦75,000",
+    cta: "Shop Now"
+  }
 ];
 
+// ============================================
+// GLOBAL VARIABLES
+// ============================================
+let supabase = null;
+let products = [];
 let currentSlide = 0;
 let slideInterval;
+let slidesArray = [];
 
+// ============================================
+// INITIALIZE SUPABASE
+// ============================================
+function initSupabase() {
+  supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  console.log('✅ Supabase initialized');
+}
+
+initSupabase();
+
+// ============================================
+// HERO SLIDER FUNCTIONS
+// ============================================
 function buildSlides() {
   const container = document.getElementById('slidesContainer');
   const dotsContainer = document.getElementById('dotsContainer');
   if (!container) return;
+  
   container.innerHTML = '';
   dotsContainer.innerHTML = '';
+  
   slidesData.forEach((slide, idx) => {
     const slideDiv = document.createElement('div');
     slideDiv.className = `slide ${idx === 0 ? 'active' : ''}`;
     slideDiv.style.backgroundImage = `linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.3)), url('${slide.bg}')`;
     slideDiv.innerHTML = `<div class="slide-content"><h2>${slide.headline}</h2><p>${slide.subtext}</p><a href="shop.html" class="cta-button">${slide.cta}</a></div>`;
     container.appendChild(slideDiv);
+    
     const dot = document.createElement('div');
     dot.classList.add('dot');
     if (idx === 0) dot.classList.add('active');
@@ -94,57 +618,255 @@ function buildSlides() {
 }
 
 function updateActiveSlide() {
-  document.querySelectorAll('.slide').forEach((slide, i) => slide.classList.toggle('active', i === currentSlide));
+  slidesArray.forEach((slide, i) => slide.classList.toggle('active', i === currentSlide));
   document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
 }
 
-function nextSlide() { currentSlide = (currentSlide + 1) % slidesData.length; updateActiveSlide(); }
-function prevSlide() { currentSlide = (currentSlide - 1 + slidesData.length) % slidesData.length; updateActiveSlide(); }
-function goToSlide(index) { currentSlide = index; updateActiveSlide(); }
-function startAutoPlay() { if (slideInterval) clearInterval(slideInterval); slideInterval = setInterval(nextSlide, 5000); }
-
-// Supabase
-const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE";
-let products = [];
-
-async function loadProducts() {
-  try {
-    const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const { data, error } = await supabase.from('products').select('*');
-    if (!error && data) products = data;
-  } catch(e) { console.log('Supabase not connected'); }
-  renderProducts();
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % slidesArray.length;
+  updateActiveSlide();
+  resetInterval();
 }
 
-function renderProducts() {
+function prevSlide() {
+  currentSlide = (currentSlide - 1 + slidesArray.length) % slidesArray.length;
+  updateActiveSlide();
+  resetInterval();
+}
+
+function goToSlide(index) {
+  currentSlide = index;
+  updateActiveSlide();
+  resetInterval();
+}
+
+function startAutoPlay() {
+  if (slideInterval) clearInterval(slideInterval);
+  slideInterval = setInterval(nextSlide, 5000);
+}
+
+function resetInterval() {
+  clearInterval(slideInterval);
+  startAutoPlay();
+}
+
+// ============================================
+// PRODUCT FUNCTIONS
+// ============================================
+async function loadProducts() {
+  try {
+    const { data, error } = await supabase.from('products').select('*').order('id', { ascending: true });
+    if (error) throw error;
+    products = data || [];
+    window.products = products;
+    console.log(`✅ Loaded ${products.length} products`);
+    renderFeatured();
+    renderCategoryGrid();
+    return products;
+  } catch (error) {
+    console.error('❌ Error loading products:', error);
+    products = [];
+    renderFeatured();
+    return [];
+  }
+}
+
+function renderFeatured() {
   const grid = document.getElementById('featuredGrid');
   if (!grid) return;
-  if (products.length === 0) { grid.innerHTML = '<p style="text-align:center">No products yet</p>'; return; }
-  grid.innerHTML = products.slice(0, 8).map(p => `
-    <div class="product-card">
-      <img class="product-img" src="${p.image}">
+  
+  const featured = products.slice(0, 8);
+  if (featured.length === 0) {
+    grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; padding: 3rem;"><p>🛍️ No products available yet!</p><p style="color: #5a5a6e;">New products coming soon. Please check back later.</p><p style="margin-top: 1rem;"><a href="admin.html?key=LUXE_ADMIN_2025" style="color: #c07a5b;">Admin: Add Products →</a></p></div>';
+    return;
+  }
+  
+  grid.innerHTML = featured.map(p => `
+    <div class="product-card fade-on-scroll" onclick="location.href='product-detail.html?id=${p.id}'">
+      <img class="product-img" src="${p.image}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x240?text=Product'">
       <div class="product-info">
-        <div class="product-name">${p.name}</div>
+        <div class="product-name">${escapeHtml(p.name)}</div>
         <div class="product-price">₦${p.price.toLocaleString('en-NG')}</div>
-        <button class="add-to-cart-btn" onclick="addToCart(${p.id}, 1)">Add to Cart</button>
+        <div class="product-desc">${escapeHtml(p.shortdesc || p.shortDesc || 'Quality product')}</div>
+        <div class="quantity-wrapper">
+          <label>Qty:</label>
+          <input type="number" min="1" value="1" class="qty-input" id="featured-qty-${p.id}" onclick="event.stopPropagation()">
+        </div>
+        <button class="whatsapp-btn" onclick="event.stopPropagation(); buyOnWhatsApp(products.find(pr => pr.id === ${p.id}), parseInt(document.getElementById('featured-qty-${p.id}').value))">
+          <i class="fab fa-whatsapp"></i> Buy on WhatsApp
+        </button>
+        <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${p.id}, parseInt(document.getElementById('featured-qty-${p.id}').value))">
+          <i class="fas fa-cart-plus"></i> Add to Cart
+        </button>
       </div>
     </div>
   `).join('');
 }
 
-function addToCart(id, qty) { alert('Add to cart: ' + id); }
-function updateCartCount() { document.querySelectorAll('.cart-count').forEach(el => el.textContent = '0'); }
+function renderCategoryGrid() {
+  const grid = document.getElementById('categoryGrid');
+  if (!grid) return;
+  
+  const categories = ['Electronics', 'Furniture', 'Beauty', 'Groceries', 'Toys', 'Sports'];
+  const categoryProducts = categories.map(cat => products.find(p => p.category === cat)).filter(p => p);
+  
+  if (categoryProducts.length === 0) {
+    grid.innerHTML = '';
+    return;
+  }
+  
+  grid.innerHTML = categoryProducts.map(p => `
+    <div class="product-card fade-on-scroll" onclick="location.href='shop.html?cat=${p.category}'">
+      <img class="product-img" src="${p.image}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x240?text=Category'">
+      <div class="product-info" style="text-align: center;">
+        <div class="product-name" style="font-size: 1.3rem;">${p.category}</div>
+        <p style="color: #5a5a6e; margin-top: 0.5rem;">Shop the collection →</p>
+      </div>
+    </div>
+  `).join('');
+}
 
-// Hamburger menu
+// ============================================
+// CART FUNCTIONS
+// ============================================
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+function saveCart() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+}
+
+function updateCartCount() {
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.querySelectorAll('.cart-count').forEach(el => {
+    if (el) el.textContent = count;
+  });
+}
+
+function addToCart(productId, quantity = 1) {
+  const existing = cart.find(item => item.id === productId);
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    const product = products.find(p => p.id === productId);
+    if (product) cart.push({ ...product, quantity });
+  }
+  saveCart();
+  showToast('✓ Added to cart!');
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  saveCart();
+  showToast('🗑️ Removed from cart');
+}
+
+function getCartTotal() {
+  return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+}
+
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #c07a5b;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 40px;
+    z-index: 9999;
+    animation: fadeInOut 2s ease;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  `;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2000);
+}
+
+function buyOnWhatsApp(product, quantity = 1) {
+  const message = `Hello! I'm interested in purchasing "${product.name}" at ₦${product.price.toLocaleString('en-NG')} each.\n\nQuantity: ${quantity}\nTotal: ₦${(product.price * quantity).toLocaleString('en-NG')}\n\nPlease confirm availability and shipping cost. Thank you!`;
+  const encodedMsg = encodeURIComponent(message);
+  const phone = product.whatsapp || "2349134391505";
+  const waLink = `https://wa.me/${phone}?text=${encodedMsg}`;
+  window.open(waLink, '_blank');
+}
+
+// Helper function to escape HTML
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
+// ============================================
+// HAMBURGER MENU
+// ============================================
 const hamburger = document.getElementById('hamburger');
 const mobileNav = document.getElementById('mobileNav');
 const overlay = document.getElementById('overlay');
-function toggleMenu() { hamburger.classList.toggle('active'); mobileNav.classList.toggle('active'); overlay.classList.toggle('active'); document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : ''; }
-hamburger?.addEventListener('click', toggleMenu);
-overlay?.addEventListener('click', toggleMenu);
-document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', toggleMenu));
 
+function toggleMenu() {
+  hamburger.classList.toggle('active');
+  mobileNav.classList.toggle('active');
+  overlay.classList.toggle('active');
+  document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+}
+
+function closeMenu() {
+  hamburger.classList.remove('active');
+  mobileNav.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+hamburger?.addEventListener('click', toggleMenu);
+overlay?.addEventListener('click', closeMenu);
+document.querySelectorAll('.mobile-nav a').forEach(link => link.addEventListener('click', closeMenu));
+
+// ============================================
+// CATEGORY PILLS NAVIGATION
+// ============================================
+document.querySelectorAll('.category-pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const category = btn.dataset.category;
+    window.location.href = category === 'all' ? 'shop.html' : `shop.html?cat=${category}`;
+  });
+});
+
+// ============================================
+// TOUCH SUPPORT FOR SLIDER
+// ============================================
+let touchStartX = 0;
+const hero = document.querySelector('.hero');
+hero?.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+hero?.addEventListener('touchend', e => {
+  const endX = e.changedTouches[0].screenX;
+  if (endX < touchStartX - 50) nextSlide();
+  if (endX > touchStartX + 50) prevSlide();
+});
+
+// ============================================
+// SCROLL ANIMATIONS
+// ============================================
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-on-scroll').forEach(el => observer.observe(el));
+
+// ============================================
+// INITIALIZE EVERYTHING
+// ============================================
 document.getElementById('prevSlide')?.addEventListener('click', prevSlide);
 document.getElementById('nextSlide')?.addEventListener('click', nextSlide);
 
@@ -152,6 +874,19 @@ buildSlides();
 startAutoPlay();
 loadProducts();
 updateCartCount();
+
+// Update auth link based on login status
+const currentUser = localStorage.getItem('luxe_current_user');
+const authLinks = document.querySelectorAll('#desktopAuthLink, #mobileAuthLink');
+if (currentUser) {
+  const user = JSON.parse(currentUser);
+  authLinks.forEach(link => {
+    if (link) {
+      link.innerHTML = `<i class="fas fa-user"></i> ${user.name.split(' ')[0]}`;
+      link.href = 'account.html';
+    }
+  });
+}
 </script>
 </body>
 </html>

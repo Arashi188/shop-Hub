@@ -3,8 +3,8 @@
 // ============================================
 // YOUR SUPABASE KEYS - PUT YOUR ACTUAL KEYS HERE
 // ============================================
-const LUXE_SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
-const LUXE_SUPABASE_KEY = "YOUR_ANON_KEY_HERE";
+const LUXE_SUPABASE_URL = "https://negqfvyhxtpkunucszjd.supabase.co";
+const LUXE_SUPABASE_KEY = "sb_publishable_fu0RDcDsBPp7STVvKGp3GA_HfGe51kO";
 
 // ============================================
 // HERO SLIDER DATA

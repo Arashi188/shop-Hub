@@ -8,36 +8,42 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    .admin-container { max-width: 1400px; margin: 0 auto; padding: 1rem; }
-    .admin-header { background: linear-gradient(135deg, #2c2c36, #1a1a2e); color: white; padding: 1rem 2rem; border-radius: 20px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #fefcf8; }
+    .admin-container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+    .admin-header { background: linear-gradient(135deg, #2c2c36, #1a1a2e); color: white; padding: 20px 30px; border-radius: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
     .admin-title { font-size: 1.5rem; font-weight: 700; }
-    .logout-btn { background: rgba(255,255,255,0.2); border: none; padding: 8px 20px; border-radius: 40px; color: white; cursor: pointer; }
+    .logout-btn { background: rgba(255,255,255,0.2); border: none; padding: 8px 20px; border-radius: 40px; color: white; cursor: pointer; font-size: 14px; }
     .logout-btn:hover { background: #e74c3c; }
-    .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-    .stat-box { background: white; padding: 1.5rem; border-radius: 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background: white; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
     .stat-number { font-size: 2rem; font-weight: 700; color: #c07a5b; }
-    .admin-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem; }
-    .admin-tab { padding: 10px 24px; background: none; border: none; cursor: pointer; font-weight: 500; border-radius: 12px; }
-    .admin-tab:hover { background: #fefcf8; }
-    .admin-tab.active { background: #c07a5b; color: white; }
-    .admin-table { width: 100%; overflow-x: auto; background: white; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .admin-table th, .admin-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eaeaea; }
-    .admin-table th { background: #2c2c36; color: white; }
-    .product-form { background: white; padding: 1.5rem; border-radius: 20px; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .product-form input, .product-form select, .product-form textarea { padding: 10px; border: 1px solid #eaeaea; border-radius: 12px; }
-    .product-form button { background: #c07a5b; color: white; border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-weight: 600; }
-    .image-upload-area { border: 2px dashed #eaeaea; border-radius: 20px; padding: 1rem; text-align: center; cursor: pointer; background: #fefcf8; }
-    .image-upload-area:hover { border-color: #c07a5b; background: #e8c9bb; }
-    .image-preview { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; margin-top: 0.5rem; }
-    .current-image { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
-    .edit-btn, .delete-btn { padding: 5px 12px; border: none; border-radius: 8px; cursor: pointer; margin: 0 3px; }
+    .stat-label { color: #666; margin-top: 5px; }
+    .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; border-bottom: 2px solid #eaeaea; padding-bottom: 10px; }
+    .tab { padding: 10px 25px; background: none; border: none; cursor: pointer; font-weight: 500; border-radius: 12px; font-size: 16px; }
+    .tab:hover { background: #f0f0f0; }
+    .tab.active { background: #c07a5b; color: white; }
+    .product-form { background: white; padding: 25px; border-radius: 20px; margin-bottom: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    .product-form input, .product-form select, .product-form textarea { padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-family: inherit; font-size: 14px; }
+    .product-form button { background: #c07a5b; color: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; }
+    .product-form button:hover { background: #a25f42; }
+    .image-upload { border: 2px dashed #ddd; border-radius: 20px; padding: 15px; text-align: center; cursor: pointer; background: #fefcf8; }
+    .image-upload:hover { border-color: #c07a5b; background: #f5f0e8; }
+    .image-preview { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; margin-top: 10px; }
+    .table-container { background: white; border-radius: 20px; overflow-x: auto; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #2c2c36; color: white; }
+    .product-img-small { width: 50px; height: 50px; object-fit: cover; border-radius: 10px; }
+    .edit-btn, .delete-btn { padding: 6px 12px; border: none; border-radius: 8px; cursor: pointer; margin: 0 3px; font-size: 12px; }
     .edit-btn { background: #3498db; color: white; }
     .delete-btn { background: #e74c3c; color: white; }
-    .backup-btn { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; margin: 0.5rem; }
-    .danger-btn { background: #e74c3c; }
-    .empty-state { text-align: center; padding: 3rem; color: #5a5a6e; }
-    .ai-badge { background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; margin-left: 8px; }
-    @media (max-width: 768px) { .admin-container { padding: 0.5rem; } .admin-table { font-size: 0.8rem; } }
+    .action-buttons { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .action-btn { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; }
+    .action-btn.danger { background: #e74c3c; }
+    .empty-state { text-align: center; padding: 50px; color: #999; }
+    .ai-badge { background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 11px; padding: 2px 8px; border-radius: 20px; margin-left: 8px; vertical-align: middle; }
+    @media (max-width: 768px) { .admin-container { padding: 10px; } th, td { padding: 8px; font-size: 12px; } }
   </style>
 </head>
 <body>
@@ -47,197 +53,233 @@
     <div class="admin-title"><i class="fas fa-shield-alt"></i> LUXE Admin Dashboard</div>
     <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
   </div>
-  
-  <div class="admin-stats">
-    <div class="stat-box"><div class="stat-number" id="totalProducts">0</div><div class="stat-label">Total Products</div></div>
-    <div class="stat-box"><div class="stat-number" id="totalOrders">0</div><div class="stat-label">Total Orders</div></div>
-    <div class="stat-box"><div class="stat-number" id="totalRevenue">₦0</div><div class="stat-label">Total Revenue</div></div>
-    <div class="stat-box"><div class="stat-number" id="totalUsers">0</div><div class="stat-label">Registered Users</div></div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-number" id="totalProducts">0</div><div class="stat-label">Total Products</div></div>
+    <div class="stat-card"><div class="stat-number" id="totalOrders">0</div><div class="stat-label">Total Orders</div></div>
+    <div class="stat-card"><div class="stat-number" id="totalRevenue">₦0</div><div class="stat-label">Total Revenue</div></div>
+    <div class="stat-card"><div class="stat-number" id="totalUsers">0</div><div class="stat-label">Registered Users</div></div>
   </div>
-  
-  <div class="admin-tabs">
-    <button class="admin-tab active" data-tab="products">📦 Products</button>
-    <button class="admin-tab" data-tab="orders">🛒 Orders</button>
-    <button class="admin-tab" data-tab="users">👥 Users</button>
-    <button class="admin-tab" data-tab="settings">⚙️ Settings</button>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('products')">📦 Products</button>
+    <button class="tab" onclick="showTab('orders')">🛒 Orders</button>
+    <button class="tab" onclick="showTab('users')">👥 Users</button>
+    <button class="tab" onclick="showTab('settings')">⚙️ Settings</button>
   </div>
-  
+
+  <!-- Products Tab -->
   <div id="productsTab">
     <h3>➕ Add New Product <span class="ai-badge">🤖 AI Powered</span></h3>
     <div class="product-form">
       <input type="text" id="productName" placeholder="Product Name">
       <input type="number" id="productPrice" placeholder="Price in Naira">
       <select id="productCategory">
-        <option value="Electronics">📱 Electronics</option>
-        <option value="Furniture">🛋️ Furniture</option>
-        <option value="Beauty">💄 Beauty</option>
-        <option value="Groceries">🥑 Groceries</option>
-        <option value="Toys">🎮 Toys</option>
-        <option value="Sports">⚽ Sports</option>
-        <option value="Books">📚 Books</option>
-        <option value="Fashion">👕 Fashion</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Furniture">Furniture</option>
+        <option value="Beauty">Beauty</option>
+        <option value="Groceries">Groceries</option>
+        <option value="Toys">Toys</option>
+        <option value="Sports">Sports</option>
+        <option value="Books">Books</option>
+        <option value="Fashion">Fashion</option>
       </select>
       
-      <div class="image-upload-area" onclick="document.getElementById('productImageInput').click()">
+      <div class="image-upload" onclick="document.getElementById('imageInput').click()">
         <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #c07a5b;"></i>
         <p>Click to upload product image</p>
         <img id="imagePreview" class="image-preview" style="display: none;">
       </div>
-      <input type="file" id="productImageInput" accept="image/*" style="display: none;" onchange="previewImage(this)">
-      <input type="hidden" id="productImage" value="">
+      <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="previewImage(this)">
+      <input type="hidden" id="productImage">
       
-      <input type="text" id="productShortDesc" placeholder="Short Description">
-      <textarea id="productFullDesc" rows="2" placeholder="Full Description"></textarea>
+      <input type="text" id="shortDesc" placeholder="Short Description">
+      <textarea id="fullDesc" rows="2" placeholder="Full Description"></textarea>
       <button onclick="addProduct()"><i class="fas fa-plus"></i> Add Product</button>
     </div>
-    
+
     <h3>📋 All Products</h3>
-    <div class="admin-table">
-      <table style="width:100%">
+    <div class="table-container">
+      <table>
         <thead><tr><th>ID</th><th>Image</th><th>Name</th><th>Price (₦)</th><th>Category</th><th>Actions</th></tr></thead>
         <tbody id="productsTableBody"><tr><td colspan="6" class="empty-state">No products yet. Click "Add Product" to get started! 🚀</td></tr></tbody>
       </table>
     </div>
-    
-    <div style="margin-top:1rem">
-      <button class="backup-btn" onclick="exportData()"><i class="fas fa-download"></i> Export JSON</button>
-      <button class="backup-btn" onclick="exportCSV()"><i class="fas fa-file-csv"></i> Export CSV</button>
+
+    <div class="action-buttons">
+      <button class="action-btn" onclick="exportData()"><i class="fas fa-download"></i> Export JSON</button>
+      <button class="action-btn" onclick="exportCSV()"><i class="fas fa-file-csv"></i> Export CSV</button>
       <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">
-      <button class="backup-btn" onclick="document.getElementById('importFile').click()"><i class="fas fa-upload"></i> Import Data</button>
-      <button class="backup-btn danger-btn" onclick="resetAllData()"><i class="fas fa-trash"></i> Reset All Data</button>
+      <button class="action-btn" onclick="document.getElementById('importFile').click()"><i class="fas fa-upload"></i> Import Data</button>
+      <button class="action-btn danger" onclick="resetAllData()"><i class="fas fa-trash"></i> Reset All Data</button>
     </div>
   </div>
-  
-  <div id="ordersTab" style="display:none;"><h3>📦 Customer Orders</h3><div class="admin-table"><table style="width:100%"><thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr></thead><tbody id="ordersTableBody"><tr><td colspan="6" class="empty-state">No orders yet</td></tr></tbody></table></div></div>
-  <div id="usersTab" style="display:none;"><h3>👥 Registered Users</h3><div class="admin-table"><table style="width:100%"><thead><tr><th>Email</th><th>Name</th><th>Registered Date</th><th>Action</th></tr></thead><tbody id="usersTableBody"><tr><td colspan="4" class="empty-state">No users yet</td></tr></tbody></table></div></div>
-  <div id="settingsTab" style="display:none;"><h3>⚙️ Admin Settings</h3><div class="product-form" style="grid-template-columns:1fr"><div><label>🔐 Change Secret Key:</label><input type="text" id="newSecretKey" placeholder="New secret key"><button onclick="changeSecretKey()">Update</button></div><div><label>📞 WhatsApp Number:</label><input type="text" id="whatsappNumber" placeholder="234XXXXXXXXXX"><button onclick="updateWhatsApp()">Update</button></div></div></div>
+
+  <!-- Orders Tab -->
+  <div id="ordersTab" style="display:none;">
+    <h3>📦 Customer Orders</h3>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="ordersTableBody"><tr><td colspan="6" class="empty-state">No orders yet</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Users Tab -->
+  <div id="usersTab" style="display:none;">
+    <h3>👥 Registered Users</h3>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>Email</th><th>Name</th><th>Registered Date</th><th>Action</th></tr></thead>
+        <tbody id="usersTableBody"><tr><td colspan="4" class="empty-state">No users yet</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Settings Tab -->
+  <div id="settingsTab" style="display:none;">
+    <h3>⚙️ Settings</h3>
+    <div class="product-form" style="grid-template-columns: 1fr;">
+      <div><label>🔐 Change Secret Key:</label><input type="text" id="newSecretKey" placeholder="New secret key"><button onclick="changeSecretKey()">Update</button></div>
+      <div><label>📞 WhatsApp Number:</label><input type="text" id="whatsappNumber" placeholder="234XXXXXXXXXX"><button onclick="updateWhatsApp()">Update</button></div>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ============================================
-// YOUR SUPABASE KEYS - PUT THEM HERE
+// YOUR SUPABASE KEYS - PUT YOUR ACTUAL KEYS HERE
 // ============================================
-const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE";
+const SUPABASE_URL = "https://negqfvyhxtpkunucszjd.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_fu0RDcDsBPp7STVvKGp3GA_HfGe51kO";
 
 let supabase = null;
-let currentProducts = [];
+let products = [];
 
 function initSupabase() {
   supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  console.log('Supabase initialized');
+  console.log('Supabase ready');
 }
 
 initSupabase();
 
-// Load products from Supabase
+// Load products
 async function loadProducts() {
   try {
     const { data, error } = await supabase.from('products').select('*').order('id', { ascending: true });
     if (error) throw error;
-    currentProducts = data || [];
-    window.products = currentProducts;
+    products = data || [];
     renderProductsTable();
-    updateStats();
-    console.log('Loaded', currentProducts.length, 'products');
-    return currentProducts;
+    document.getElementById('totalProducts').innerText = products.length;
+    window.products = products;
   } catch (error) {
-    console.error('Error loading:', error);
-    currentProducts = [];
+    console.error('Error:', error);
+    products = [];
     renderProductsTable();
-    return [];
   }
 }
 
-// Add product to Supabase
+// Add product
 async function addProduct() {
   const name = document.getElementById('productName').value;
-  const price = parseFloat(document.getElementById('productPrice').value);
+  const price = document.getElementById('productPrice').value;
   const image = document.getElementById('productImage').value;
-  
+  const category = document.getElementById('productCategory').value;
+  const shortDesc = document.getElementById('shortDesc').value;
+  const fullDesc = document.getElementById('fullDesc').value;
+
   if (!name) { alert('Enter product name'); return; }
   if (!price) { alert('Enter price'); return; }
   if (!image) { alert('Upload product image'); return; }
-  
+
   const newProduct = {
     name: name,
-    price: price,
-    category: document.getElementById('productCategory').value,
+    price: parseInt(price),
+    category: category,
     image: image,
-    shortdesc: document.getElementById('productShortDesc').value || 'Quality product',
-    fulldesc: document.getElementById('productFullDesc').value || '',
+    shortdesc: shortDesc || 'Quality product',
+    fulldesc: fullDesc || shortDesc,
     whatsapp: "2349134391505"
   };
-  
-  showToast('💾 Saving to database...');
-  
+
   try {
     const { data, error } = await supabase.from('products').insert([newProduct]).select();
     if (error) throw error;
     
     if (data && data[0]) {
-      newProduct.id = data[0].id;
-      currentProducts.push(newProduct);
+      products.push(data[0]);
       renderProductsTable();
-      updateStats();
+      document.getElementById('totalProducts').innerText = products.length;
       
       // Clear form
       document.getElementById('productName').value = '';
       document.getElementById('productPrice').value = '';
-      document.getElementById('productShortDesc').value = '';
-      document.getElementById('productFullDesc').value = '';
+      document.getElementById('shortDesc').value = '';
+      document.getElementById('fullDesc').value = '';
       document.getElementById('productImage').value = '';
       document.getElementById('imagePreview').style.display = 'none';
-      document.getElementById('productImageInput').value = '';
-      document.querySelector('.image-upload-area p').innerHTML = 'Click to upload product image';
+      document.getElementById('imageInput').value = '';
+      document.querySelector('.image-upload p').innerHTML = 'Click to upload product image';
       
-      showToast('✅ Product added successfully!');
+      alert('✅ Product added successfully!');
     }
   } catch (error) {
-    console.error('Error adding:', error);
-    showToast('❌ Error saving to database. Check console.');
+    console.error('Error:', error);
+    alert('❌ Error saving product. Check console.');
   }
 }
 
+// Delete product
 async function deleteProduct(id) {
   if (!confirm('Delete this product?')) return;
-  
   try {
-    const { error } = await supabase.from('products').delete().eq('id', id);
-    if (error) throw error;
-    currentProducts = currentProducts.filter(p => p.id !== id);
+    await supabase.from('products').delete().eq('id', id);
+    products = products.filter(p => p.id !== id);
     renderProductsTable();
-    updateStats();
-    showToast('✅ Product deleted');
+    document.getElementById('totalProducts').innerText = products.length;
+    alert('✅ Product deleted');
   } catch (error) {
-    console.error('Error deleting:', error);
-    showToast('❌ Error deleting');
+    alert('❌ Error deleting');
   }
 }
 
+// Render products table
 function renderProductsTable() {
   const tbody = document.getElementById('productsTableBody');
-  if (currentProducts.length === 0) {
+  if (products.length === 0) {
     tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No products yet. Click "Add Product" to get started! 🚀</td></tr>';
     return;
   }
-  tbody.innerHTML = currentProducts.map(p => `
+  tbody.innerHTML = products.map(p => `
     <tr>
       <td>${p.id}</td>
-      <td><img src="${p.image}" class="current-image" onerror="this.src='https://via.placeholder.com/50x50'"></td>
+      <td><img src="${p.image}" class="product-img-small" onerror="this.src='https://via.placeholder.com/50'"></td>
       <td>${p.name}</td>
       <td>₦${p.price.toLocaleString('en-NG')}</td>
       <td>${p.category}</td>
-      <td><button class="edit-btn" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i></button><button class="delete-btn" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button></td>
+      <td>
+        <button class="edit-btn" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i> Edit</button>
+        <button class="delete-btn" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i> Delete</button>
+      </td>
     </tr>
   `).join('');
 }
 
-function updateStats() {
-  document.getElementById('totalProducts').textContent = currentProducts.length;
+// Edit product
+function editProduct(id) {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+  const newName = prompt('Edit name:', product.name);
+  const newPrice = prompt('Edit price:', product.price);
+  if (newName) product.name = newName;
+  if (newPrice) product.price = parseInt(newPrice);
+  renderProductsTable();
+  alert('✅ Product updated locally');
 }
 
+// Preview image
 function previewImage(input) {
   const file = input.files[0];
   if (file) {
@@ -246,25 +288,15 @@ function previewImage(input) {
       document.getElementById('imagePreview').src = e.target.result;
       document.getElementById('imagePreview').style.display = 'block';
       document.getElementById('productImage').value = e.target.result;
-      document.querySelector('.image-upload-area p').innerHTML = '✅ Image selected!';
+      document.querySelector('.image-upload p').innerHTML = '✅ Image selected!';
     };
     reader.readAsDataURL(file);
   }
 }
 
-function editProduct(id) {
-  const product = currentProducts.find(p => p.id === id);
-  if (!product) return;
-  const newName = prompt('Edit name:', product.name);
-  const newPrice = prompt('Edit price:', product.price);
-  if (newName) product.name = newName;
-  if (newPrice) product.price = parseFloat(newPrice);
-  renderProductsTable();
-  showToast('✅ Product updated locally');
-}
-
+// Export data
 function exportData() {
-  const data = { products: currentProducts };
+  const data = { products: products };
   const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -273,9 +305,10 @@ function exportData() {
   a.click();
 }
 
+// Export CSV
 function exportCSV() {
   let csv = "ID,Name,Price,Category\n";
-  currentProducts.forEach(p => csv += `${p.id},"${p.name}",${p.price},"${p.category}"\n`);
+  products.forEach(p => csv += `${p.id},"${p.name}",${p.price},"${p.category}"\n`);
   const blob = new Blob([csv], {type: 'text/csv'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -284,6 +317,7 @@ function exportCSV() {
   a.click();
 }
 
+// Import data
 function importData(input) {
   const file = input.files[0];
   if (!file) return;
@@ -299,56 +333,50 @@ function importData(input) {
           }]);
         }
         await loadProducts();
-        showToast('✅ Imported!');
+        alert('✅ Imported!');
       }
     } catch(err) { alert('Invalid file'); }
   };
   reader.readAsText(file);
 }
 
+// Reset all data
 async function resetAllData() {
-  if (confirm('Delete ALL products?')) {
-    for (const product of currentProducts) {
-      await supabase.from('products').delete().eq('id', product.id);
-    }
-    await loadProducts();
-    showToast('🔄 All data reset');
+  if (!confirm('⚠️ Delete ALL products? This cannot be undone!')) return;
+  for (const product of products) {
+    await supabase.from('products').delete().eq('id', product.id);
   }
+  await loadProducts();
+  alert('🔄 All data reset');
 }
 
+// Tab switching
+function showTab(tab) {
+  document.getElementById('productsTab').style.display = tab === 'products' ? 'block' : 'none';
+  document.getElementById('ordersTab').style.display = tab === 'orders' ? 'block' : 'none';
+  document.getElementById('usersTab').style.display = tab === 'users' ? 'block' : 'none';
+  document.getElementById('settingsTab').style.display = tab === 'settings' ? 'block' : 'none';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Settings
 function changeSecretKey() {
   const newKey = document.getElementById('newSecretKey').value;
-  if (newKey) { localStorage.setItem('luxe_admin_key', newKey); alert('Key updated!'); }
+  if (newKey) { localStorage.setItem('luxe_admin_key', newKey); alert('Key updated! Use: admin.html?key=' + newKey); }
 }
 
 function updateWhatsApp() {
   const num = document.getElementById('whatsappNumber').value;
-  if (num) { localStorage.setItem('luxe_whatsapp', num); showToast('WhatsApp updated!'); }
-}
-
-function showToast(message) {
-  const toast = document.createElement('div');
-  toast.textContent = message;
-  toast.style.cssText = `position:fixed; bottom:20px; right:20px; background:#c07a5b; color:white; padding:12px 24px; border-radius:40px; z-index:9999; animation:fadeInOut 2s ease;`;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 2000);
+  if (num) { localStorage.setItem('luxe_whatsapp', num); alert('WhatsApp updated!'); }
 }
 
 function logout() { window.location.href = 'index.html'; }
 
-document.querySelectorAll('.admin-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    const tabId = tab.dataset.tab;
-    document.getElementById('productsTab').style.display = tabId === 'products' ? 'block' : 'none';
-    document.getElementById('ordersTab').style.display = tabId === 'orders' ? 'block' : 'none';
-    document.getElementById('usersTab').style.display = tabId === 'users' ? 'block' : 'none';
-    document.getElementById('settingsTab').style.display = tabId === 'settings' ? 'block' : 'none';
-  });
-});
-
+// Load settings
 document.getElementById('whatsappNumber').value = localStorage.getItem('luxe_whatsapp') || "2349134391505";
+
+// Initialize
 loadProducts();
 </script>
 </body>
